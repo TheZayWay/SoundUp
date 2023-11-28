@@ -50,6 +50,7 @@ def https_redirect():
 
 
 
+
 @app.after_request
 def inject_csrf_token(response):
     response.set_cookie(
