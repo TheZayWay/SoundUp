@@ -15,4 +15,15 @@ class Song(db.Model):
     user = db.relationship("User", back_populates="songs")
 
     #Will create the to_dict() here
+    #No underscore to keep attributes public 
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "file_name": self.file_name,
+            "title": self.title,
+            "artist": self.artist,
+            "album": self.album,
+            "genre": self.genre,
+            "user_id": self.user_id
+        }
