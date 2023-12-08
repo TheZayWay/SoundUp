@@ -1,0 +1,10 @@
+<form action="" method="post">
+    {{ form.csrf_token }}
+    <p>{{ form.filename.label }}: {{ form.filename }}</p>
+    <p>{{ form.title.label }}: {{ form.title }}</p>
+    <p>{{ form.artist.label }}: {{ form.artist }}</p>
+    <p>{{ form.album.label }}: {{ form.album }}</p>
+    <p>{{ form.genre.label }}: {{ form.genre }}</p>
+    <p>{{ form.image.label }}: {{ form.image }}</p>
+    <p>{{form.upload.label}} {{ form.upload }}</p>
+</form>
