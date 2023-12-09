@@ -1,4 +1,4 @@
-1. Add current_user in order to assign a user_id to each song
+1. Add current_user in order to assign a user_id to each song (Do this when starting front end)
 
 2. Work on getting song to play route for front end api
 
