@@ -15,7 +15,6 @@ from .config import Config
 from pprint import pprint 
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
-# app = Flask(__name__)
 
 # Setup login manager
 login = LoginManager(app)
