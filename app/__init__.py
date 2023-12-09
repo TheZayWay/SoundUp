@@ -35,14 +35,12 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}  
 
-#Boolean if file is allowed
+#Boolean Checks If File Is Allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-#saving audio files to upload folder in app.config
-def save_audio_file(file, filename):
-    # pprint(file) #Filestorage 
-    # pprint(filename) #File string 
+#Saves Approved Files To Upload Folder through app.config
+def save_song(file, filename):
     if filename and allowed_file(filename):
         secured_filename = secure_filename(filename) 
         upload_file_path = app.config['UPLOAD_FOLDER']
@@ -52,39 +50,41 @@ def save_audio_file(file, filename):
             print(f"FILE PATH: {file_path} does exist !!")
             return file_path
         else:
-            print(f"File path: {file_path} doesn't exist.") 
+            print(f"FILE PATH: {file_path} doesn't exist.") 
     else:
         return None
     
-
+#Upload Route
 @app.route('/api/songs/upload', methods=['POST'])
 def upload_song():
     form = UploadSongForm()
     file = request.files['filename']   
     filename = file.filename            
-    file_path = save_audio_file(file, filename)
+    file_path = save_song(file, filename)
     
     if file_path:
         song = Song(
-            filename = filename, #form.data['filename']
+            filename = filename,
             title = form.data['title'],
             artist = form.data['artist'],
             album = form.data['album'],
             genre = form.data['genre'],
             image = form.data['image'],
             file_path = file_path
-        )
+        )        
         db.session.add(song)
         db.session.commit()
         print(f"Added Song to database.")
         return song.to_dict()
     else:
         print(f"Could not add Song to database.")
-        return "Song not added"
-    
+        return "Song not added."
 
-
-
+#Upload Test Route 
+@app.route('/api/songs/upload', methods=['GET'])
+def render_song_upload():
+    form = UploadSongForm()
+    return render_template('upload_song.html', form=form)
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
@@ -109,8 +109,6 @@ def https_redirect():
             url = request.url.replace('http://', 'https://', 1)
             code = 301
             return redirect(url, code=code)
-
-
 
 
 @app.after_request
@@ -148,51 +146,6 @@ def react_root(path):
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
-
-
-
-    # if 'file' not in request.files:
-    #     return redirect(request.url)
- 
-    # request.files['file']
-    # file = request.files['file']
-    # print("FILE FILE FILE", file)
-
-    # if file == '':
-    #     return redirect(request.url)
-    
-    # if file and allowed_file(file.filename):
-        # if form.validate_on_submit():
-        # form['csrf_token'].data = request.cookies['csrf_token']
-        # filename = secure_filename(file.filename)
-        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-        # # if current_user.is_authenticated and hasattr(current_user, 'id'):
-        #     # user_id = current_user.id
-        # data = form.data
-
-        # song = Song(
-        #     filename = filename,
-        #     title = data['title'],
-        #     artist = data['artist'],
-        #     album = data['album'],
-        #     genre = data['genre']
-        #     # user_id = user_id
-        # )
-        
-        # db.session.add(song)
-        # db.session.commit()
-        # return song.to_dict()
-    
-    return 'Invalid file format'
-
-
-
-@app.route('/api/songs/upload', methods=['GET'])
-def render_song_upload():
-    form = UploadSongForm()
-    return render_template('upload_song.html', form=form)
-
 
 
 @app.errorhandler(404)
