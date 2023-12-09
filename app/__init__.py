@@ -17,9 +17,6 @@ from pprint import pprint
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 # app = Flask(__name__)
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
-
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -34,11 +31,61 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 
-#adds k/v to config class object 
-#to store path of upload folder
-#to store path of allowed extensions/types
-app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}  
+
+#Boolean if file is allowed
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+#saving audio files to upload folder in app.config
+def save_audio_file(file, filename):
+    # pprint(file) #Filestorage 
+    # pprint(filename) #File string 
+    if filename and allowed_file(filename):
+        secured_filename = secure_filename(filename) 
+        upload_file_path = app.config['UPLOAD_FOLDER']
+        file_path = os.path.join(upload_file_path, secured_filename)
+        file.save(file_path)
+        if os.path.exists(file_path):
+            print(f"FILE PATH: {file_path} does exist !!")
+            return file_path
+        else:
+            print(f"File path: {file_path} doesn't exist.") 
+    else:
+        return None
+    
+
+@app.route('/api/songs/upload', methods=['POST'])
+def upload_song():
+    form = UploadSongForm()
+    file = request.files['filename']   
+    filename = file.filename            
+    file_path = save_audio_file(file, filename)
+    
+    if file_path:
+        song = Song(
+            filename = filename, #form.data['filename']
+            title = form.data['title'],
+            artist = form.data['artist'],
+            album = form.data['album'],
+            genre = form.data['genre'],
+            image = form.data['image'],
+            file_path = file_path
+        )
+        db.session.add(song)
+        db.session.commit()
+        print(f"Added Song to database.")
+        return song.to_dict()
+    else:
+        print(f"Could not add Song to database.")
+        return "Song not added"
+    
+
+
+
+
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
@@ -102,37 +149,40 @@ def react_root(path):
         return app.send_from_directory('public', 'favicon.ico')
     return app.send_static_file('index.html')
 
-@app.route('/api/songs/upload', methods=['POST'])
-def upload_song():
-    form = UploadSongForm()
-    
-    if 'file' not in request.files:
-        return redirect(request.url)
-    
-    file = request.files['file']
 
-    if file == '':
-        return redirect(request.url)
-    
-    if file and allowed_file(file.filename):
-        if form.validate_on_submit():
-            form['csrf_token'].data = request.cookies['csrf_token']
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            if current_user.is_authenticated and hasattr(current_user, 'id'):
-                user_id = current_user.id
-                song = Song(
-                    filename = filename,
-                    title = form.data['title'],
-                    artist = form.data['artist'],
-                    album = form.data['album'],
-                    genre = form.data['genre'],
-                    user_id = user_id
-                )
-                db.session.add(song)
-                db.session.commit()
-                return 'File uploaded successfully'
+    # if 'file' not in request.files:
+    #     return redirect(request.url)
+ 
+    # request.files['file']
+    # file = request.files['file']
+    # print("FILE FILE FILE", file)
+
+    # if file == '':
+    #     return redirect(request.url)
+    
+    # if file and allowed_file(file.filename):
+        # if form.validate_on_submit():
+        # form['csrf_token'].data = request.cookies['csrf_token']
+        # filename = secure_filename(file.filename)
+        # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # # if current_user.is_authenticated and hasattr(current_user, 'id'):
+        #     # user_id = current_user.id
+        # data = form.data
+
+        # song = Song(
+        #     filename = filename,
+        #     title = data['title'],
+        #     artist = data['artist'],
+        #     album = data['album'],
+        #     genre = data['genre']
+        #     # user_id = user_id
+        # )
+        
+        # db.session.add(song)
+        # db.session.commit()
+        # return song.to_dict()
     
     return 'Invalid file format'
 
