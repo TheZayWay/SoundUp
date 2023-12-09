@@ -55,8 +55,12 @@ def save_song(file, filename):
         return None
     
 #Upload Route
-@app.route('/api/songs/upload', methods=['POST'])
+@app.route('/api/songs/upload', methods=['POST', 'GET'])
 def upload_song():
+    if request.method == 'GET':
+        form = UploadSongForm()
+        return render_template('upload_song.html', form=form)
+    
     form = UploadSongForm()
     file = request.files['filename']   
     filename = file.filename            
@@ -80,11 +84,36 @@ def upload_song():
         print(f"Could not add Song to database.")
         return "Song not added."
 
-#Upload Test Route 
-@app.route('/api/songs/upload', methods=['GET'])
-def render_song_upload():
+
+#Update A Song
+@app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
+def update_song_information(id):
     form = UploadSongForm()
-    return render_template('upload_song.html', form=form)
+
+    if request.method == 'GET':
+        return render_template('update_song.html', form=form)
+    
+    if request.method in ['PUT', 'POST'] and form.validate_on_submit():
+        
+        file = request.files['filename']   
+        filename = file.filename         
+        file_path = save_song(file, filename)
+        
+        song_to_update = Song.query.get(id)
+        song_to_update.filename = filename
+        song_to_update.title = form.data['title']
+        song_to_update.artist = form.data['artist']
+        song_to_update.album = form.data['album']
+        song_to_update.genre = form.data['genre']
+        song_to_update.image = form.data['image']
+        song_to_update.file_path = file_path
+        
+        db.session.commit()
+        print(f"Updated Song in database.")
+        return song_to_update.to_dict()
+    else:
+        return render_template('update_song.html', form=form)
+    
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
