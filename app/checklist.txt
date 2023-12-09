@@ -1,27 +1,13 @@
-1. Working on upload_song Route (Done)
-    Bug: circular import (Fixed by creating the upload route within __init__.py)
-    Changes: 
-    Imported secure_filename
-    Imported current_user
-    Added a user_id to the route
-    New Bug: Song isnt hitting the database/ POST request is not being made through jinja template
+1. Add current_user in order to assign a user_id to each song
+
+2. Work on getting song to play route for front end api
+
+3. Finish the rest of the CRUD routes for song
+
+4. Create seeders for Song uploads
+
+5. Finish adding all error validations for backend if necessary 
+
+6. Backend is done for now!
 
 
-2. Need to finish UploadSongForm (Done)
-    Then can serve a jinja/html template and attempt to upload a song to database
-    Changes: 
-    Created a render_upload_song route
-
-
-After being able to get song upload to hit DB must comment in 
-Lines 93-103
-Lines 148-150
-
-
-
-
-After this route work on playing music route 
-After this make all querys and finish all secondary routes
-Make sure to include error validations for the backend 
-After that finalize seeders 
-Then backend is done for the moment!
