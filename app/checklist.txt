@@ -2,13 +2,12 @@
 
 2. Work on getting song to play route for front end api
 
-3. Finish the rest of the CRUD routes for song
+3. Create seeders for Song uploads
 
-4. Create seeders for Song uploads
+4. Finish adding all error validations for backend if necessary 
 
-5. Finish adding all error validations for backend if necessary 
 
-6. Backend is done for now!
+5. Backend is done for now!
 
 
 

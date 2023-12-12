@@ -1,7 +1,6 @@
-from flask import Flask, render_template, redirect, request, url_for, Blueprint, session
+from flask import Blueprint
 from flask_login import current_user
 from app.models import db, Song, User
-from app.forms.upload_song_form import UploadSongForm
 from pprint import pprint
 import os
 
@@ -59,9 +58,6 @@ def remove_song(id):
     db.session.delete(song)
     db.session.commit()
 
-#Play A Song
-@song_routes.route('/play/<filename>', methods=['GET'])
-def play_song():
-    pass
+
 
 

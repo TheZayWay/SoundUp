@@ -1,4 +1,7 @@
 12/09/2023
+
 -Added more get all song routes in case want to create thunks for ordering
     -Ordered by title
     -Ordered by upload date
+
+-Finished rest of backend song routes for now (except playback route) 

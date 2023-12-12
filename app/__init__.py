@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, send_from_directory, send_file
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -12,7 +12,8 @@ from .api.song_routes import song_routes
 from .forms.upload_song_form import UploadSongForm
 from .seeds import seed_commands
 from .config import Config
-from pprint import pprint 
+from pprint import pprint
+import urllib.parse 
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -64,7 +65,9 @@ def upload_song():
     file = request.files['filename']   
     filename = file.filename            
     file_path = save_song(file, filename)
-    
+    pprint(filename)
+    pprint(file)
+
     if file_path:
         song = Song(
             filename = filename,
@@ -112,7 +115,23 @@ def update_song_information(id):
         return song_to_update.to_dict()
     else:
         return render_template('update_song.html', form=form)
-    
+
+#Playing the song 
+@app.route('/api/songs/play/uploads/<path:filename>', methods=['GET'])
+def play_song(filename):
+    """
+    App root is variable for os path till app
+    File path is the absolute path which is necessary 
+    for send_file or send_from_directory 
+    """
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + filename
+    # return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    return send_file(file_path, as_attachment=True)
+
+@app.route('/api/songs/audio_player', methods=['GET'])
+def audio_player():    
+    return render_template('audio_player.html')  
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
@@ -180,7 +199,13 @@ def react_root(path):
 def not_found(e):
     return app.send_static_file('index.html')
 
-
-
+#Looping through uploads 
+@app.route('/api/config')
+def see_config():
+    upload_folder_path = app.config['UPLOAD_FOLDER']
+    files = os.listdir(upload_folder_path)
+    for file in files:
+        print(file)
     
-    
+    return f"Contents of {upload_folder_path}: {files}"
+
