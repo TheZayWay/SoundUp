@@ -134,7 +134,7 @@ def audio_player():
     return render_template('audio_player.html', file_names=file_names)
 
 #Delete song from /uploads and DB 
-@app.route('/api/songs/<int:id>/delete', methods=['GET', 'DELETE'])
+@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
 def delete_from_uploads_and_db(id):
     song_for_db = Song.query.get(id)
     song = Song.query.get(id).filename
