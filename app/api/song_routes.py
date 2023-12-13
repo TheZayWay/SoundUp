@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from flask_login import current_user
 from app.models import db, Song, User
 from pprint import pprint
@@ -55,8 +55,17 @@ def get_users_songs():
 @song_routes.route('/<int:id>/delete', methods=['DELETE'])
 def remove_song(id):
     song = Song.query.get(id)
-    db.session.delete(song)
-    db.session.commit()
+    if song:
+        db.session.delete(song)
+        db.session.commit()
+        print("Song deleted.")
+        return "Song deleted successfully."
+    else:
+        print(f"Couldn't find song with id: {id}")
+        return f"Couldn't find song with id: {id}", 404
+        
+    
+    
 
 
 

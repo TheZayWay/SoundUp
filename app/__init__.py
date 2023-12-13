@@ -12,6 +12,7 @@ from .api.song_routes import song_routes
 from .forms.upload_song_form import UploadSongForm
 from .seeds import seed_commands
 from .config import Config
+
 from pprint import pprint
 import urllib.parse 
 
@@ -130,8 +131,11 @@ def play_song(filename):
     return send_file(file_path, as_attachment=True)
 
 @app.route('/api/songs/audio_player', methods=['GET'])
-def audio_player():    
-    return render_template('audio_player.html')  
+def audio_player():
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    file_path = root + '/' + app.config['UPLOAD_FOLDER']
+    file_names = os.listdir(file_path)
+    return render_template('audio_player.html', file_names=file_names)
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')

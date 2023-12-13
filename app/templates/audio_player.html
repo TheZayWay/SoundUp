@@ -6,12 +6,14 @@
     <title>Audio Player</title>
 </head>
 <body>
+    {% for filename in file_names %}
     <h1>Audio Player</h1>
         <div>
             <audio controls>
-                <source src="{{ url_for('play_song', filename='Etude_Op._25_no._4_in_A_minor_-_Paganini.mp3')}}" type="audio/mp3">
+                <source src="{{ url_for('play_song', filename=filename)}}" type="audio/mp3">
                 Your browser does not support the audio element.
             </audio>
         </div>
+    {% endfor %}
 </body>
 </html>
