@@ -1,11 +1,12 @@
 12/09/2023
-
 -Added more get all song routes in case want to create thunks for ordering
     -Ordered by title
     -Ordered by upload date
-
 -Finished rest of backend song routes for now (except playback route) 
 
 12/11/2023
+-Finished song play back and can play on every song 
 
--Finished song play back
+12/12/2023
+-Was able to merge deletion from db and from uploads folder
+

@@ -51,9 +51,9 @@ def get_users_songs():
     return users_songs
 
 
-#Delete A Song 
-@song_routes.route('/<int:id>/delete', methods=['DELETE'])
-def remove_song(id):
+#Delete A Song (DB only)
+@song_routes.route('/<int:id>/delete/db', methods=['GET','DELETE'])
+def remove_song_from_db(id):
     song = Song.query.get(id)
     if song:
         db.session.delete(song)

@@ -1,13 +1,10 @@
 1. Add current_user in order to assign a user_id to each song (Do this when starting front end)
 
-2. Work on getting song to play route for front end api
+2. Create seeders for Song uploads
 
-3. Create seeders for Song uploads
+3. Finish adding all error validations for backend if necessary 
 
-4. Finish adding all error validations for backend if necessary 
-
-
-5. Backend is done for now!
+4. Backend is done for now!
 
 
 

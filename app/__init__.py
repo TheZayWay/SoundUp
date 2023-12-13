@@ -66,8 +66,6 @@ def upload_song():
     file = request.files['filename']   
     filename = file.filename            
     file_path = save_song(file, filename)
-    pprint(filename)
-    pprint(file)
 
     if file_path:
         song = Song(
@@ -86,7 +84,6 @@ def upload_song():
     else:
         print(f"Could not add Song to database.")
         return "Song not added."
-
 
 #Update A Song
 @app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
@@ -110,7 +107,6 @@ def update_song_information(id):
         song_to_update.genre = form.data['genre']
         song_to_update.image = form.data['image']
         song_to_update.file_path = file_path
-        
         db.session.commit()
         print(f"Updated Song in database.")
         return song_to_update.to_dict()
@@ -137,6 +133,32 @@ def audio_player():
     file_names = os.listdir(file_path)
     return render_template('audio_player.html', file_names=file_names)
 
+#Delete song from /uploads and DB 
+@app.route('/api/songs/<int:id>/delete', methods=['GET', 'DELETE'])
+def delete_from_uploads_and_db(id):
+    song_for_db = Song.query.get(id)
+    song = Song.query.get(id).filename
+    transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '')
+    
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + transformed_song
+    if file_path:
+        os.remove(file_path)
+        db.session.delete(song_for_db)
+        db.session.commit()
+        return f"{song} was successfully deleted."
+    else:
+        return "Song wasn't in database."
+    
+#Looping through uploads 
+@app.route('/api/config')
+def see_config():
+    upload_folder_path = app.config['UPLOAD_FOLDER']
+    files = os.listdir(upload_folder_path)
+    for file in files:
+        print(file)
+    
+    return f"Contents of {upload_folder_path}: {files}"
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
@@ -147,12 +169,7 @@ Migrate(app, db)
 # Application Security
 CORS(app)
 
-
-# Since we are deploying with Docker and Flask,
-# we won't be using a buildpack when we deploy to Heroku.
-# Therefore, we need to make sure that in production any
-# request made over http is redirected to https.
-# Well.........
+#Request converted from http to https
 @app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
@@ -161,7 +178,7 @@ def https_redirect():
             code = 301
             return redirect(url, code=code)
     
-
+#Injects csrf token in response
 @app.after_request
 def inject_csrf_token(response):
     response.set_cookie(
@@ -173,7 +190,7 @@ def inject_csrf_token(response):
         httponly=True)
     return response
 
-
+#Show all backend APIs/ doc or null on browser
 @app.route("/api/docs")
 def api_help():
     """
@@ -203,13 +220,5 @@ def react_root(path):
 def not_found(e):
     return app.send_static_file('index.html')
 
-#Looping through uploads 
-@app.route('/api/config')
-def see_config():
-    upload_folder_path = app.config['UPLOAD_FOLDER']
-    files = os.listdir(upload_folder_path)
-    for file in files:
-        print(file)
-    
-    return f"Contents of {upload_folder_path}: {files}"
+
 
