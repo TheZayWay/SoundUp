@@ -7,13 +7,14 @@ class Song(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String, nullable=False)
     title = db.Column(db.String(30), nullable=False)
-    artist = db.Column(db.String(30))
-    album = db.Column(db.String(30))
-    genre = db.Column(db.String(20))
-    image = db.Column(db.String, nullable=False)
+    artist = db.Column(db.String(30), nullable=True)
+    album = db.Column(db.String(30), nullable=True)
+    genre = db.Column(db.String(20), nullable=True)
+    image = db.Column(db.String, nullable=True)
     uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     file_path = db.Column(db.String, nullable=False)
+    image_path = db.Column(db.String, nullable=True)
 
     user = db.relationship("User", back_populates="songs")
 

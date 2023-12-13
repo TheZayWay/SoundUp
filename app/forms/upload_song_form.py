@@ -14,7 +14,7 @@ class UploadSongForm(FlaskForm):
                  ('RnB', 'RnB'),('Country', 'Country'),('EDM', 'EDM'),
                  ('Classical', 'Classical'),('Jazz', 'Jazz'),('Rock', 'Rock'),
                  ('Reggae', 'Reggae',),('Alternative', 'Alternative')])
-    image = StringField('Image', validators=[DataRequired()])
+    image = FileField('Image', validators=[DataRequired()])
     upload = SubmitField('Upload')
 
     
