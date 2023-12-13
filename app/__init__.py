@@ -142,13 +142,14 @@ def delete_from_uploads_and_db(id):
     
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + transformed_song
-    if file_path:
-        os.remove(file_path)
-        db.session.delete(song_for_db)
-        db.session.commit()
-        return f"{song} was successfully deleted."
-    else:
-        return "Song wasn't in database."
+    os.remove(file_path)
+
+    db.session.delete(song_for_db)
+    db.session.commit()
+    print(f"{song} was succesfully deleted from uploads and from database.")
+    return f"{song} was successfully deleted."
+    
+    
     
 #Looping through uploads 
 @app.route('/api/config')
