@@ -86,6 +86,7 @@ def upload_song():
         return render_template('upload_song.html', form=form)
     
     form = UploadSongForm()
+    
     file = request.files['filename'] 
     filename = file.filename            
     file_path = save_song(file, filename)
@@ -166,27 +167,26 @@ def audio_player():
     return render_template('audio_player.html', file_names=file_names)
 
 #Delete song from /uploads and DB w/ associated image
-@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
+@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
 def delete_from_uploads_and_db(id):
-    if request.method == "GET":
-        song_for_db = Song.query.get(id)
-        song = Song.query.get(id).filename
-        transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '')
-        
-        root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-        file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + transformed_song
-        os.remove(file_path)
+    song_for_db = Song.query.get(id)
+    song = Song.query.get(id).filename
+    transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '')
+    
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + transformed_song
+    os.remove(file_path)
 
-        image = Song.query.get(id).image
-        transformed_image = image.replace(' ', '_').replace(',', '').replace("'", '')
+    image = Song.query.get(id).image
+    transformed_image = image.replace(' ', '_').replace(',', '').replace("'", '')
 
-        image_path = root + '/' + app.config['IMAGE_FOLDER'] + '/' + transformed_image
-        os.remove(image_path)
+    image_path = root + '/' + app.config['IMAGE_FOLDER'] + '/' + transformed_image
+    os.remove(image_path)
 
-        db.session.delete(song_for_db)
-        db.session.commit()
-        print(f"{song} was succesfully deleted from uploads and from database with image.")
-        return f"{song} was successfully deleted."
+    db.session.delete(song_for_db)
+    db.session.commit()
+    print(f"{song} was succesfully deleted from uploads and from database with image.")
+    return f"{song} was successfully deleted."
         
 #Looping through uploads 
 @app.route('/api/config')
