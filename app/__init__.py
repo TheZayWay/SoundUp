@@ -39,7 +39,7 @@ app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}
 app.config['ALLOWED_IMAGES']  = {'png', 'jpeg'}
 
-## UPLOADS ##
+## UPLOADS FUNCTIONS ##
 
 #Boolean Checks If File Is Allowed
 def allowed_file(filename):
@@ -48,7 +48,8 @@ def allowed_file(filename):
 def allowed_image(image):
     return '.' in image and image.rsplit('.', 1)[1].lower() in app.config['ALLOWED_IMAGES']
 
-#Saves Approved Files To Upload Folder through app.config
+
+#Saves Approved Files Through app.config
 def save_song(file, filename):
     if filename and allowed_file(filename):
         secured_filename = secure_filename(filename) 
@@ -77,6 +78,8 @@ def save_image(image, image_name):
             print(f"FILE PATH: {file_path} doesn't exist.") 
     else:
         return None
+    
+
 # Deletes upload and image from respective directories    
 def delete_from_uploads_and_images(id):
     song = Song.query.get(id).filename
@@ -94,7 +97,10 @@ def delete_from_uploads_and_images(id):
     print(f"{song} was succesfully deleted from uploads w/ image.")
     return f"{song} was successfully deleted."
 
-#Upload Route
+
+### UPLOAD ROUTES ###
+
+#Upload Song
 @app.route('/api/songs/upload', methods=['POST', 'GET'])
 def upload_song():
     if request.method == 'GET':
@@ -130,7 +136,8 @@ def upload_song():
         print(f"Could not add Song to database.")
         return "Song not added."
 
-#Update A Song
+
+#Update Song
 @app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
 def update_song_information(id):
     form = UploadSongForm()
@@ -164,7 +171,8 @@ def update_song_information(id):
     else:
         return render_template('update_song.html', form=form)
 
-#Playing the song 
+
+#Play Song 
 @app.route('/api/songs/play/uploads/<path:filename>', methods=['GET'])
 def play_song(filename):
     """
@@ -184,9 +192,14 @@ def audio_player():
     file_names = os.listdir(file_path)
     return render_template('audio_player.html', file_names=file_names)
 
-# Delete song from /uploads and DB w/ associated image
+
+# Deletes Song 
 @app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
 def delete_song_from_db(id):
+    """
+    Deletes song and image from DB
+    and from /uploads and /images
+    """
     if request.method == "GET":
         song_for_db = Song.query.get(id)
         delete_from_uploads_and_images(id)
@@ -196,8 +209,9 @@ def delete_song_from_db(id):
         return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
 
 
-        
-#Looping through uploads 
+## Look Inside Objects ##
+
+#Config
 @app.route('/api/config')
 def see_config():
     upload_folder_path = app.config['UPLOAD_FOLDER']
@@ -207,12 +221,14 @@ def see_config():
     
     return f"Contents of {upload_folder_path}: {files}"
 
+#Request
 app.route('/api/files')
 def see_request_files():
     for key, file_storage in request.files.items():
         print(f"File field name: {key}")
         print(f"File name: {file_storage.filename}")
         print(f"Content type: {file_storage.content_type}")
+
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
