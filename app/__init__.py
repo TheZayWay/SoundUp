@@ -41,6 +41,7 @@ app.config['ALLOWED_IMAGES']  = {'png', 'jpeg'}
 
 ## UPLOADS FUNCTIONS ##
 
+
 #Boolean Checks If File Is Allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
@@ -80,7 +81,7 @@ def save_image(image, image_name):
         return None
     
 
-# Deletes upload and image from respective directories    
+# Deletes Upload & Image From Respective Directories    
 def delete_from_uploads_and_images(id):
     song = Song.query.get(id).filename
     transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '')
@@ -194,19 +195,18 @@ def audio_player():
 
 
 # Deletes Song 
-@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
+@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
 def delete_song_from_db(id):
     """
     Deletes song and image from DB
     and from /uploads and /images
     """
-    if request.method == "GET":
-        song_for_db = Song.query.get(id)
-        delete_from_uploads_and_images(id)
-        db.session.delete(song_for_db)
-        db.session.commit()
-        print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
-        return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
+    song_for_db = Song.query.get(id)
+    delete_from_uploads_and_images(id)
+    db.session.delete(song_for_db)
+    db.session.commit()
+    print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
+    return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
 
 
 ## Look Inside Objects ##
