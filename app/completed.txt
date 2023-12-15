@@ -10,3 +10,9 @@
 12/12/2023
 -Was able to merge deletion from db and from uploads folder
 
+12/13/2023
+-Reworked the deletion function by separating the db deletion to a separate route
+    -Reason was to update the update route so deletion can occur for /uploads and /images
+-Added /images in order to upload images 
+
+

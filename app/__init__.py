@@ -12,9 +12,7 @@ from .api.song_routes import song_routes
 from .forms.upload_song_form import UploadSongForm
 from .seeds import seed_commands
 from .config import Config
-
 from pprint import pprint
-import urllib.parse 
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -37,7 +35,7 @@ IMAGE_FOLDER = 'images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}
-app.config['ALLOWED_IMAGES']  = {'png', 'jpeg'}
+app.config['ALLOWED_IMAGES']  = {'png', 'jpeg', 'jpg'}
 
 ## UPLOADS FUNCTIONS ##
 
@@ -84,7 +82,7 @@ def save_image(image, image_name):
 # Deletes Upload & Image From Respective Directories    
 def delete_from_uploads_and_images(id):
     song = Song.query.get(id).filename
-    transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '')
+    transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '').replace("#",'')
     
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + transformed_song
@@ -195,18 +193,19 @@ def audio_player():
 
 
 # Deletes Song 
-@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
+@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
 def delete_song_from_db(id):
     """
     Deletes song and image from DB
     and from /uploads and /images
     """
-    song_for_db = Song.query.get(id)
-    delete_from_uploads_and_images(id)
-    db.session.delete(song_for_db)
-    db.session.commit()
-    print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
-    return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
+    if request.method == "GET":
+        song_for_db = Song.query.get(id)
+        delete_from_uploads_and_images(id)
+        db.session.delete(song_for_db)
+        db.session.commit()
+        print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
+        return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
 
 
 ## Look Inside Objects ##
@@ -215,11 +214,19 @@ def delete_song_from_db(id):
 @app.route('/api/config')
 def see_config():
     upload_folder_path = app.config['UPLOAD_FOLDER']
+    image_folder_path = app.config['IMAGE_FOLDER']
     files = os.listdir(upload_folder_path)
+    images = os.listdir(image_folder_path)
     for file in files:
         print(file)
+    for image in images:
+        print(image)
     
-    return f"Contents of {upload_folder_path}: {files}"
+    return f"Contents: {upload_folder_path}: {files} \n {image_folder_path}: {images}"
+
+@app.route('/api/db')
+def see_db():
+    pass
 
 #Request
 app.route('/api/files')
