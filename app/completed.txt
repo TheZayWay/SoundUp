@@ -16,7 +16,11 @@
 -Added /images in order to upload images 
 
 12/14/2023
--Seeders Finished   
+-Seeders Finished 
+
+12/15/2023
+-Finished tweaking the bugs within the deletion route just needed to separate the
+ /upload /image removal functions 
     
 
 

@@ -37,8 +37,9 @@ app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}
 app.config['ALLOWED_IMAGES']  = {'png', 'jpeg', 'jpg'}
 
-## UPLOADS FUNCTIONS ##
+### UPLOADS ROUTES & METHODS ###
 
+## UPLOAD METHODS ##
 
 #Boolean Checks If File Is Allowed
 def allowed_file(filename):
@@ -48,7 +49,7 @@ def allowed_image(image):
     return '.' in image and image.rsplit('.', 1)[1].lower() in app.config['ALLOWED_IMAGES']
 
 
-#Saves Approved Files Through app.config
+#Saves Approved Files/Images Through app.config
 def save_song(file, filename):
     if filename and allowed_file(filename):
         secured_filename = secure_filename(filename) 
@@ -79,25 +80,33 @@ def save_image(image, image_name):
         return None
     
 
-# Deletes Upload & Image From Respective Directories    
-def delete_from_uploads_and_images(id):
+# Removes An Upload/Image From Respective Directories    
+def remove_from_uploads(id):
     song = Song.query.get(id).filename
-    transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '').replace("#",'')
-    
+    transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '').replace("#", '').replace('(', '').replace(')', '')
+
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + transformed_song
-    os.remove(file_path)
+    if file_path:
+        os.remove(file_path)
+        print(f"FILE PATH {file_path} was removed!!")
+    
+    print(f"{song} was succesfully deleted from /uploads.")
+    return f"{song} was successfully deleted from /uploads."
 
+def remove_from_images(id):
     image = Song.query.get(id).image
     transformed_image = image.replace(' ', '_').replace(',', '').replace("'", '')
 
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     image_path = root + '/' + app.config['IMAGE_FOLDER'] + '/' + transformed_image
     os.remove(image_path)
-    print(f"{song} was succesfully deleted from uploads w/ image.")
-    return f"{song} was successfully deleted."
 
+    print(f"IMAGE PATH {image_path} was removed")
+    print(f"{image} was successfully deleted from /images")
+    return f"{image} was successfully deleted from /images"
 
-### UPLOAD ROUTES ###
+## UPLOAD ROUTES ##
 
 #Upload Song
 @app.route('/api/songs/upload', methods=['POST', 'GET'])
@@ -114,7 +123,10 @@ def upload_song():
 
     image = request.files['image']
     image_name = image.filename
-    image_path = save_image(image, image_name)
+    if image and image_name:
+        image_path = save_image(image, image_name)
+    else: 
+        image_path = None
 
     if file_path:
         song = Song(
@@ -123,10 +135,10 @@ def upload_song():
             artist = form.data['artist'],
             album = form.data['album'],
             genre = form.data['genre'],
-            image = image_name,
+            image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
             file_path = file_path,
             image_path = image_path
-        )        
+        )     
         db.session.add(song)
         db.session.commit()
         print(f"Added Song to database.")
@@ -145,7 +157,8 @@ def update_song_information(id):
         return render_template('update_song.html', form=form)
     
     if request.method in ['PUT', 'POST'] and form.validate_on_submit():
-        delete_from_uploads_and_images(id)
+        remove_from_uploads(id)
+        remove_from_images(id)
         
         file = request.files['filename']   
         filename = file.filename         
@@ -193,22 +206,22 @@ def audio_player():
 
 
 # Deletes Song 
-@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
+@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
 def delete_song_from_db(id):
     """
     Deletes song and image from DB
     and from /uploads and /images
     """
-    if request.method == "GET":
-        song_for_db = Song.query.get(id)
-        delete_from_uploads_and_images(id)
-        db.session.delete(song_for_db)
-        db.session.commit()
-        print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
-        return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
+    song_for_db = Song.query.get(id)
+    remove_from_uploads(id)
+    remove_from_images(id)
+    db.session.delete(song_for_db)
+    db.session.commit()
+    print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
+    return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
 
 
-## Look Inside Objects ##
+## Peep Inside Relevant Object Methods ##
 
 #Config
 @app.route('/api/config')
@@ -218,9 +231,9 @@ def see_config():
     files = os.listdir(upload_folder_path)
     images = os.listdir(image_folder_path)
     for file in files:
-        print(file)
+        print(os.path.abspath(file))
     for image in images:
-        print(image)
+        print(os.path.abspath(image))
     
     return f"Contents: {upload_folder_path}: {files} \n {image_folder_path}: {images}"
 
@@ -277,6 +290,11 @@ def api_help():
     return route_list
 
 
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204
+
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def react_root(path):
@@ -294,5 +312,16 @@ def react_root(path):
 def not_found(e):
     return app.send_static_file('index.html')
 
+#Testing Routes
+@app.route("/api/deletesong", methods=['GET'])
+def remove_song():
+    """
+    Delete a specific song
+    Just swap out filename or config['IMAGE_FOLDER']
+    """
+    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + 'Arabesque_no._1_bass_guitar_arr..mp3'
+    os.remove(file_path)
+    return "Song removed from uploads folder"
 
 
