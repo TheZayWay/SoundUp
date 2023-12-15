@@ -67,15 +67,15 @@ def save_song(file, filename):
 def save_image(image, image_name):
     if image_name and allowed_image(image_name):
         secured_filename = secure_filename(image_name) 
-        upload_file_path = app.config['IMAGE_FOLDER']
-        file_path = os.path.join(upload_file_path, secured_filename)
-        os.makedirs(upload_file_path, exist_ok=True)
-        image.save(file_path)        
-        if os.path.exists(file_path):
-            print(f"FILE PATH: {file_path} does exist !!")
-            return file_path
+        upload_image_path = app.config['IMAGE_FOLDER']
+        image_path = os.path.join(upload_image_path, secured_filename)
+        os.makedirs(upload_image_path, exist_ok=True)
+        image.save(image_path)        
+        if os.path.exists(image_path):
+            print(f"IMAGE PATH: {image_path} does exist !!")
+            return image_path
         else:
-            print(f"FILE PATH: {file_path} doesn't exist.") 
+            print(f"IMAGE PATH: {image_path} doesn't exist.") 
     else:
         return None
     
@@ -152,21 +152,27 @@ def upload_song():
 @app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
 def update_song_information(id):
     form = UploadSongForm()
+    song_in_db = Song.query.get(id)
 
     if request.method == 'GET':
         return render_template('update_song.html', form=form)
     
     if request.method in ['PUT', 'POST'] and form.validate_on_submit():
         remove_from_uploads(id)
-        remove_from_images(id)
         
         file = request.files['filename']   
         filename = file.filename         
         file_path = save_song(file, filename)
 
         image = request.files['image']
-        image_name = image.filename
-        image_path = save_image(image, image_name)
+        if image:
+            if song_in_db.image != "":
+                remove_from_images(id)
+            image_name = image.filename
+            image_path = save_image(image, image_name)
+        else:
+            image_name = song_in_db.image
+            image_path = song_in_db.image_path
 
         song_to_update = Song.query.get(id)
         song_to_update.filename = filename
@@ -214,7 +220,8 @@ def delete_song_from_db(id):
     """
     song_for_db = Song.query.get(id)
     remove_from_uploads(id)
-    remove_from_images(id)
+    if song_for_db.image != "" and song_for_db.image_path != None:
+        remove_from_images(id)
     db.session.delete(song_for_db)
     db.session.commit()
     print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
@@ -325,3 +332,9 @@ def remove_song():
     return "Song removed from uploads folder"
 
 
+@app.route("/api/test", methods=['GET'])
+def tester():
+    song = Song.query.get(6)
+    print("IMAGE",song.image)
+    print("PATH", song.image_path)
+    return song.image
