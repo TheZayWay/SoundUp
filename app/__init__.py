@@ -224,9 +224,6 @@ def see_config():
     
     return f"Contents: {upload_folder_path}: {files} \n {image_folder_path}: {images}"
 
-@app.route('/api/db')
-def see_db():
-    pass
 
 #Request
 app.route('/api/files')
@@ -235,7 +232,6 @@ def see_request_files():
         print(f"File field name: {key}")
         print(f"File name: {file_storage.filename}")
         print(f"Content type: {file_storage.content_type}")
-
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
