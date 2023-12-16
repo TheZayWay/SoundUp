@@ -12,10 +12,10 @@ def allowed_file(self,field):
 def allowed_image(self,field):
     if field.data:
         allowed_extensions = {'png', 'jpeg', 'jpg'}
-    if '.' in field.data.filename and field.data.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
-        raise ValidationError("Invalid file format. Only PNG, JPG, and JPEG are allowed.")
+        if '.' in field.data.filename and field.data.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
+            raise ValidationError("Invalid file format. Only PNG, JPG, and JPEG are allowed.")
     else:
-        pass
+         pass
 
 
 class UploadSongForm(FlaskForm):
