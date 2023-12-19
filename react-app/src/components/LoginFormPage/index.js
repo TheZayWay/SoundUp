@@ -37,7 +37,7 @@ function LoginFormPage() {
 
   return (
     <>
-      <h1>Log In</h1>
+      <h1>Log In to SoundUp!</h1>
 
       <form onSubmit={handleSubmit}>
         <ul>
