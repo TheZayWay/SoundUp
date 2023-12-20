@@ -1,5 +1,4 @@
 Log In Page
-0. Hide/Show password button/ function implementation
 1. Create all necessary fields
 2. Do the JSX nesting properly for the login page form 
 3. Styling 
