@@ -1,7 +1,14 @@
-.profile-dropdown {
-  position: absolute;
+#navigation-bar-cont {
+  height: 6rem;
+  display: flex;
+  align-items: center;
 }
 
-.hidden {
-  display: none;
+#navigation-bar {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-left: 4rem;
+  text-decoration: none;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }

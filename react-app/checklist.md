@@ -1,12 +1,14 @@
-Log In Page
-1. Work on margins/ spacing of the form
-2. Work on the navigation banner 
-3. Move the footer up 
-4. Get Fonts size/weights/colors correct
+Navigation Banner 
+1. Find an svg for home navigation 
 
-After Log In Page
-4. Dont have account/ link to sign up page 
+Sign Up Page
+0. Add any JSX needed to be complete 
+1. Fix all labels/ inputs
+2. Fix all nesting
+3. Keep everything tight
+4. Fix errors
 
-Dark Colorway: Black/Red
-Light Colorway: TBD
+
+Dark Colorway: Black/Red/Grey
+Light Colorway: White/Red/Grey
 
