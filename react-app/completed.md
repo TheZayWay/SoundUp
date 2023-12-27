@@ -8,3 +8,6 @@
 12/20/2023
 -Finished the Login Page 
 
+12/26/2023
+-Able to get signup page started
+-Made sure that the body colors of each page home/login/signup are correct
