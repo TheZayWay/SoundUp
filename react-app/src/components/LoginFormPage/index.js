@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Link } from "react-router-dom";
 import Switch from 'react-switch';
 import { login } from "../../store/session";
-import Navigation from "../Navigation";
+import LoginNavigation from "../Navigation/login";
 import Footer from "../Footer";
 import './LoginForm.css';
 
@@ -49,7 +49,7 @@ function LoginFormPage() {
 
   return (
     <>
-      <Navigation />
+      <LoginNavigation />
       <div id="login-page">
         <div id="login-form-cont">
           <h1 style={{fontSize: "2.2rem", marginBottom: "3.5rem"}}>Log in to SoundUp</h1>

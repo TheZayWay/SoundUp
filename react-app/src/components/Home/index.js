@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Navigation from "../Navigation";
+import './home.css'
 
 export default function HomePage () {
     const dispatch = useDispatch();

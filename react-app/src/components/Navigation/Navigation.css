@@ -1,10 +1,27 @@
-#navigation-bar-cont {
+#login-navigation-bar-cont {
   height: 6rem;
   display: flex;
   align-items: center;
+  background-color: black;
 }
 
-#navigation-bar {
+#login-navigation-bar {
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-left: 4rem;
+  text-decoration: none;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#signup-navigation-bar-cont {
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  background-color: rgb(14, 14, 14);
+}
+
+#signup-navigation-bar {
   color: white;
   font-size: 2rem;
   font-weight: bold;
