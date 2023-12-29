@@ -32,48 +32,52 @@ function SignupFormPage() {
     <>
       <SignupNavigation />  
       <form id="signup-form" onSubmit={handleSubmit}>
-        <h1 id="signup-title">Sign up to SoundUp</h1>
-        <ul>
-          {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-        </ul>
-        <div className="signup-input-label">Email Address</div>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="signup-inputs"
-          required
-        />
-        <div className="signup-input-label">First Name</div>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          className="signup-inputs"
-          required
-        />
-        <div className="signup-input-label">Password</div>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="signup-inputs"
-          required
-        />
-        <div className="signup-input-label">Confirm password</div>
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          className="signup-inputs"
-          required
-        />
-        <button id="signup-btn" type="submit">Sign Up</button>
-        <hr id="login-hr"></hr>
-        <span style={{fontSize: "0.9rem", color: "#6a6a6a", fontWeight: "bold"}}>
-          Already have an account?
-          <Link id="login-to-signup" to="/login"> Log in here.</Link>
-        </span>
+        <div id="form-data-cont">
+          <h1 id="signup-title">Sign up to SoundUp</h1>
+          <ul>
+            {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+          </ul>
+          <div className="signup-input-label">Email Address</div>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="signup-inputs"
+            required
+          />
+          <div className="signup-input-label">First Name</div>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="signup-inputs"
+            required
+          />
+          <div className="signup-input-label">Password</div>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="signup-inputs"
+            required
+          />
+          <div className="signup-input-label">Confirm password</div>
+          <input
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="signup-inputs"
+            required
+          />
+          <button id="signup-btn" type="submit">Sign Up</button>
+          <hr id="signup-hr"></hr>
+          <span style={{fontSize: "0.9rem", color: "#6a6a6a", fontWeight: "bold", marginBottom: "2rem"}}>
+            Already have an account?
+            <Link id="login-to-signup" to="/login"> Log in here.</Link>
+          </span>
+          <span style={{fontSize: "0.55rem", color: "#6a6a6a", fontWeight: "bold"}}>This site is protected by reCAPTCHA and the Google</span>
+          <span style={{fontSize: "0.55rem", color: "#6a6a6a", fontWeight: "bold"}}>Privacy Policy and Terms of Service apply.</span>
+        </div>
       </form>
     </>
   );

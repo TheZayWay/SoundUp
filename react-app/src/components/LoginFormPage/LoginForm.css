@@ -24,12 +24,12 @@
   align-items: center;
   background-color: black;
   border: transparent 1px solid;
-  border-radius: 2%;
+  border-radius: 8px;
   height: 35rem;
-  width: 56%;
+  width: 58%;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: white;
-  margin-top: 30px;
+  margin-top: 35px;
   padding-top: 50px;
 }
 
@@ -134,7 +134,7 @@
   border: none;
   border-top: 1px solid rgb(84, 84, 84);
   margin-left: -7rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 #login-to-signup {
