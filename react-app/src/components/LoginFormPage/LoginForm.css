@@ -37,7 +37,7 @@
   width: 46%;
 }
 
-#login-errors-cont {
+.login-errors-cont {
   background-color: #e91429;
   width: 37rem;
   color: black;
@@ -46,7 +46,7 @@
 
 }
 
-#login-errors {
+.login-errors {
   color: white;
   display: flex;
   align-items: center;

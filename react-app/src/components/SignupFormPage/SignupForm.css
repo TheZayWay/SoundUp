@@ -9,7 +9,7 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: #121212;
-  height: 42rem;
+  height: 47rem;
 }
 
 #form-data-cont {
@@ -20,18 +20,21 @@ body {
 
 .signup-input-label {
   margin-bottom: 0.5rem;
-  margin-left: -11rem;
+  margin-left: -8.4rem;
   font-size: small;
   font-weight: bold;
   display: flex;
-  width: 40%;
+  width: 10rem;
+}
 
+.signup-error-labels {
+  font-size: 0.8rem;
 }
 
 .signup-inputs {
   color: white;
   background:  rgb(20, 19, 19);
-  width: 96%;
+  width: 18rem;
   height: 2.7rem;
   border: rgb(97, 94, 94) 1px solid;
   border-radius: 2px;
@@ -58,7 +61,7 @@ body {
 }
 
 #signup-btn {
-  width: 100%;
+  width: 19rem;
   height: 2.5rem;
   border-radius: 20px;
   border: none;

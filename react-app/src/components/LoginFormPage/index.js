@@ -53,7 +53,7 @@ function LoginFormPage() {
       <div id="login-page">
         <div id="login-form-cont">
           <h1 style={{fontSize: "2.2rem", marginBottom: "3.5rem"}}>Log in to SoundUp</h1>
-          {errorEmail || errorPassword ? <div id="login-errors-cont"><span id="login-errors">{caution}<span style={{paddingLeft: "1rem"}}>Incorrect email or password.</span></span></div> : ""}          
+          {errorEmail || errorPassword ? <div className="login-errors-cont"><span className="login-errors">{caution}<span style={{paddingLeft: "1rem"}}>Incorrect email or password.</span></span></div> : ""}          
           <form id="login-form" onSubmit={handleSubmit}>
             <div id="login-email-input-cont">
               <div className="login-input-label">Email</div>
