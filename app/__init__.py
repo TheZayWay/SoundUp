@@ -1,5 +1,4 @@
-import os
-from flask import Flask, render_template, request, session, redirect, send_from_directory, send_file
+from flask import Flask, render_template, request, session, redirect, send_from_directory, send_file, jsonify
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -13,8 +12,12 @@ from .forms.upload_song_form import UploadSongForm
 from .seeds import seed_commands
 from .config import Config
 from pprint import pprint
+from io import BytesIO
+import os
+import zipfile
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
+
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -211,20 +214,22 @@ def audio_player():
 
 
 # Deletes Song 
-@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
+@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
 def delete_song_from_db(id):
     """
     Deletes song and image from DB
     and from /uploads and /images
     """
-    song_for_db = Song.query.get(id)
-    remove_from_uploads(id)
-    if song_for_db.image != "" and song_for_db.image_path != None:
-        remove_from_images(id)
-    db.session.delete(song_for_db)
-    db.session.commit()
-    print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
-    return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
+
+    if request.method == "GET":
+      song_for_db = Song.query.get(id)
+      remove_from_uploads(id)
+      if song_for_db.image != "" and song_for_db.image_path != None:
+          remove_from_images(id)
+      db.session.delete(song_for_db)
+      db.session.commit()
+      print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
+      return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
 
 
 ## Peep Inside Relevant Object Methods ##
@@ -311,7 +316,7 @@ def react_root(path):
     """
     if path == 'favicon.ico':
         return app.send_from_directory('public', 'favicon.ico')
-    return app.send_static_file('index.html')
+    # return app.send_static_file('index.html')
 
 
 @app.errorhandler(404)
@@ -337,3 +342,42 @@ def tester():
     print("IMAGE",song.image)
     print("PATH", song.image_path)
     return song.image
+
+
+@app.route('/api/uploads')
+def get_uploads():
+    uploads = [f for f in os.listdir(app.config['UPLOAD_FOLDER']) if os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], f))]
+    return jsonify(uploads)
+
+
+## SERVING ROUTES ##
+
+@app.route('/api/images')
+def get_images():
+    images_folder = app.config['IMAGE_FOLDER']
+
+    # Get a list of image filenames
+    images = [f for f in os.listdir(images_folder) if os.path.isfile(os.path.join(images_folder, f))]
+
+    # Check if there are any images in the folder
+    if images:
+        # Create a BytesIO buffer to hold the ZIP file
+        zip_buffer = BytesIO()
+        
+        # Create a ZIP file containing all the images
+        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
+            for image in images:
+                # Add each image to the ZIP file
+                image_path = os.path.join(images_folder, image)
+                zip_file.write(image_path, os.path.basename(image_path))
+        
+        # Seek to the beginning of the buffer
+        zip_buffer.seek(0)
+        
+        # Send the ZIP file as the response
+        return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='images.zip')
+    else:
+        return "No images found in the specified folder.", 404
+
+
+    

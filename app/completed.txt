@@ -22,5 +22,9 @@
 -Finished tweaking the bugs within the deletion route just needed to separate the
  /upload /image removal functions 
     
+01/01/2024
+-Created a backend route that takes the image filenames from image folder as a list
+  -Then creates a buffer which will hold the constructed zip file containing the images
+   which gets sent as one file to the client 
 
 
