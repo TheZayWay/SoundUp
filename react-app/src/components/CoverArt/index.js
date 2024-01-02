@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import JSZip from 'jszip';
-import './CoverArt';
+import './CoverArt.css';
 
 function CoverArt () {
   const [imageSrcs, setImageSrcs] = useState([]);
