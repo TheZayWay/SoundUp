@@ -2,7 +2,12 @@ import CoverArt from "../CoverArt";
 
 function AllSongs () {
   return (
-    <CoverArt />
+    <>
+      <div>
+        <CoverArt />
+        {/* <Song Play/> */}
+      </div>
+    </>
   )
 }
 
