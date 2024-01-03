@@ -1,0 +1,12 @@
+.open-modal-btn {
+  border: none;
+  color: rgb(202, 201, 201);
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.open-modal-btn:hover {
+  color: white;
+  cursor: pointer;
+  transform: scale(1.02);
+}

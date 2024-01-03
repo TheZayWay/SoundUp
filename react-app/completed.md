@@ -20,3 +20,8 @@
 -Created cover art file which will render the images from backend 
   -Fetched the zip file from backend and created an instance to open the zip file
   -Then extracts the image file urls that were created and use that for the src for image rendering
+
+01/02/2024
+-Chose a logo
+-Started working on the page layout
+-

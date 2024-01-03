@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../store/session';
+import OpenModalButton from '../../OpenModalButton';
+import UploadSong from '../../Upload';
 import '../Navigation.css';
 
 function LoggedInHomeNavigation () {
@@ -11,8 +13,12 @@ function LoggedInHomeNavigation () {
   
   return (
     <div id="navigation-bar-cont">
-      <NavLink id="navigation-bar" exact to="/">SoundUp</NavLink>
+      <NavLink className="navigation-bar" exact to="/">SoundUp</NavLink>
       <div id="navigation-logged-in-leftside">
+        <OpenModalButton 
+          buttonText={"Upload"}
+          modalComponent={<UploadSong />}
+        />
         <button id="homepage-logout-btn" onClick={handleLogOut}>Log Out</button>
       </div>  
     </div>  

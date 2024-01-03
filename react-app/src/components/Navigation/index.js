@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import LoggedInHomeNavigation from './LoggedIn';
 import LoggedOutHomeNavigation from './LoggedOut';
+
 import './Navigation.css';
 
 function Navigation(){
@@ -9,7 +10,11 @@ function Navigation(){
 
   return (
     <>
-      {user ? <LoggedInHomeNavigation /> : <LoggedOutHomeNavigation />}
+      <div id="all-navi-cont">
+        <img className="logo" src={'/logo.png'} alt="Logo" />
+        {user ? <LoggedInHomeNavigation /> : <LoggedOutHomeNavigation />}
+      </div>
+      
     </>	
 	)		
 }
