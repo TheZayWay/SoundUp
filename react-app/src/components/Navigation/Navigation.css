@@ -12,7 +12,7 @@
 } 
 
 .navigation-bar {
-  color: rgb(202, 201, 201);
+  color: white;
   text-decoration: none;
   font-size: 30px;
   margin-left: -10px;
@@ -45,7 +45,7 @@
   border: none;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  background-color: rgb(202, 201, 201);
+  background-color: white;
 }
 
 #homepage-logout-btn:hover {
@@ -66,7 +66,7 @@
 }
 
 #homepage-signup-link {
-  color: rgb(202, 201, 201);
+  color: white;
   font-weight: bold;
   font-size: 1.3rem;
 }
@@ -82,7 +82,7 @@
   border: none;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  background-color: rgb(202, 201, 201);
+  background-color: white;
 }
 
 #homepage-login-btn:hover {
