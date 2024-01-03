@@ -9,6 +9,8 @@
 #homepage-right-side {
   position: absolute;
   right: 0;
+  display: flex;
+  gap: 5px;
 }
 
 #navigation-logged-in-leftside {
@@ -25,13 +27,34 @@
   font-weight: bold;
 }
 
-#homepage-signup-btn {
+#homepage-logout-btn:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+#homepage-signup {
+  border: none;
+  background-color: transparent;
+}
+
+#homepage-signup:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+#homepage-login-btn {
   height: 2rem;
   width: 6rem;
   border-radius: 20px;
   border: none;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
+
+}
+
+#homepage-login-btn:hover {
+  cursor: pointer;
+  transform: scale(1.02);
 }
 
 /* Log in Page */

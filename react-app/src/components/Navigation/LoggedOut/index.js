@@ -9,8 +9,15 @@ function LoggedOutHomeNavigation () {
     <div id="navigation-bar-cont">
       <NavLink id="navigation-bar" exact to="/">SoundUp</NavLink>
       <div id="homepage-right-side">
-        <NavLink exact to="/signup">Sign up</NavLink>
-        <button id="homepage-signup-btn" onClick={() => {history.push('/login')}}>Login</button>
+        <button id="homepage-signup" >
+          <NavLink 
+            style={{color: "white", fontWeight: "bold", fontSize: "1.3rem"}} 
+            exact to="/signup"
+          >
+          Sign up
+          </NavLink>
+        </button> 
+        <button id="homepage-login-btn" onClick={() => {history.push('/login')}}>Login</button>
       </div>
     </div>  
   )
