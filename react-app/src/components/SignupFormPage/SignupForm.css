@@ -60,6 +60,20 @@ body {
   font-weight: 550;
 }
 
+#signup-input-cont {
+  display: flex;
+
+}
+
+#signup-password-input {
+  position: absolute;
+  margin-top: 22px;
+  right: 39%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+}
+
 #signup-btn {
   width: 19rem;
   height: 2.5rem;
