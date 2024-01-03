@@ -1,3 +1,31 @@
 body {
   background-color: black !important;
 }
+
+#home-hr-top {
+  width: auto;
+  border: none;
+  border-top: 1px solid rgb(84, 84, 84);
+  margin-bottom: 3rem;
+}
+
+#home-content {
+  display: flex;
+}
+
+
+#vertical-line-cont {
+  height: 30rem; /* 100% of the viewport height */
+  display: flex;
+  align-items: center;
+}
+
+#home-hr-side {
+  display: inline;
+  margin-left: 15rem;
+  margin-top: -5.4rem;
+  height: 100%;
+  border-right: 1px solid rgb(84, 84, 84);
+  border-left: none;
+  
+}

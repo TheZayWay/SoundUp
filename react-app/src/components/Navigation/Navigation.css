@@ -1,3 +1,41 @@
+/* Home Page */
+
+#navigation-bar-cont {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+#homepage-right-side {
+  position: absolute;
+  right: 0;
+}
+
+#navigation-logged-in-leftside {
+  position: absolute;
+  right: 0;
+}
+
+#homepage-logout-btn {
+  height: 2rem;
+  width: 6rem;
+  border-radius: 20px;
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+#homepage-signup-btn {
+  height: 2rem;
+  width: 6rem;
+  border-radius: 20px;
+  border: none;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+/* Log in Page */
+
 #login-navigation-bar-cont {
   height: 6rem;
   display: flex;
@@ -13,6 +51,8 @@
   text-decoration: none;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
+/* Sign up page */
 
 #signup-navigation-bar-cont {
   height: 6rem;

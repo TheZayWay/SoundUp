@@ -1,13 +1,15 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import LoggedInHomeNavigation from './LoggedIn';
+import LoggedOutHomeNavigation from './LoggedOut';
 import './Navigation.css';
 
 function Navigation(){
-	return (
+  const user = useSelector((state) => state.session.user);
+
+  return (
     <>
-      <div id="navigation-bar-cont">
-        <NavLink id="navigation-bar" exact to="/">SoundUp</NavLink>
-      </div>  
+      {user ? <LoggedInHomeNavigation /> : <LoggedOutHomeNavigation />}
     </>	
 	)		
 }

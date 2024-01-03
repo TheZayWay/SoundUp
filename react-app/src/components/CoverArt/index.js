@@ -36,9 +36,12 @@ function CoverArt () {
   }, []);
 
   return (
-    <div>
+    <div id="cover-art-image-cont">
       {imageSrcs.map((url, index) => (
-        <img key={index} src={url} alt={index + 1} />
+        <>
+        <p></p>
+        <img className="cover-art-image" key={index} src={url} alt={index + 1} />  
+        </>
       ))}
     </div>
   );
