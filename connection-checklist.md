@@ -11,4 +11,8 @@ BackEnd
 MUST FIGURE OUT A WAY TO RENDER EVERYTHING FASTER AND MAKE MORE INTERACTIVE TOO SLOW RIGHT NOW 
   -MAYBE GRAB THEM ALL AND MAKE THEM RENDER FIRST AND THEN ALLOW THEM TO BE SHOWN ON THE HOMEPAGE 
 
+Just decided to add the image folder in to react public so now need to configure backend to
+add files to their respective folders in the public folder
+
+
 

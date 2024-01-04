@@ -23,11 +23,13 @@ class Song(db.Model):
         return {
             "id": self.id,
             "filename": self.filename,
+            "filepath": self.file_path,
             "title": self.title,
             "artist": self.artist,
             "album": self.album,
             "genre": self.genre,
             "image": self.image,
+            "imagepath": self.image_path,
             "uploaded_at": self.uploaded_at,
             "user_id": self.user_id
         }

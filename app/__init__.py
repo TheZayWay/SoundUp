@@ -354,30 +354,12 @@ def get_uploads():
 
 @app.route('/api/images')
 def get_images():
-    images_folder = app.config['IMAGE_FOLDER']
-
-    # Get a list of image filenames
-    images = [f for f in os.listdir(images_folder) if os.path.isfile(os.path.join(images_folder, f))]
-
-    # Check if there are any images in the folder
-    if images:
-        # Create a BytesIO buffer to hold the ZIP file
-        zip_buffer = BytesIO()
-        
-        # Create a ZIP file containing all the images
-        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED) as zip_file:
-            for image in images:
-                # Add each image to the ZIP file
-                image_path = os.path.join(images_folder, image)
-                zip_file.write(image_path, os.path.basename(image_path))
-        
-        # Seek to the beginning of the buffer
-        zip_buffer.seek(0)
-        
-        # Send the ZIP file as the response
-        return send_file(zip_buffer, mimetype='application/zip', as_attachment=True, download_name='images.zip')
-    else:
-        return "No images found in the specified folder.", 404
-
+  songs = Song.query.all()
+  all_songs = []
+  for song in songs:
+      all_songs.append(song.to_dict())
+  return all_songs
+  
+ 
 
     
