@@ -23,7 +23,7 @@ module.exports = function override(config, env) {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, '../images'), // Assuming 'react-app' is inside 'SoundUp'
+          from: path.resolve(__dirname, '../images'), 
           to: path.resolve(__dirname, destinationDirectoryImages),
         },
         {
