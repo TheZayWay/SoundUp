@@ -12,9 +12,8 @@ from .forms.upload_song_form import UploadSongForm
 from .seeds import seed_commands
 from .config import Config
 from pprint import pprint
-from io import BytesIO
 import os
-import zipfile
+
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -54,10 +53,12 @@ def allowed_image(image):
 #Saves Approved Files/Images Through app.config
 def save_song(file, filename):
     if filename and allowed_file(filename):
+        
         secured_filename = secure_filename(filename) 
         upload_file_path = app.config['UPLOAD_FOLDER']
         file_path = os.path.join(upload_file_path, secured_filename)
         file.save(file_path)
+
         if os.path.exists(file_path):
             print(f"FILE PATH: {file_path} does exist !!")
             return file_path
@@ -67,19 +68,19 @@ def save_song(file, filename):
         return None
 
 def save_image(image, image_name):
-    if image_name and allowed_image(image_name):
-        secured_filename = secure_filename(image_name) 
-        upload_image_path = app.config['IMAGE_FOLDER']
-        image_path = os.path.join(upload_image_path, secured_filename)
-        os.makedirs(upload_image_path, exist_ok=True)
-        image.save(image_path)        
-        if os.path.exists(image_path):
-            print(f"IMAGE PATH: {image_path} does exist !!")
-            return image_path
-        else:
-            print(f"IMAGE PATH: {image_path} doesn't exist.") 
-    else:
-        return None
+  if image_name and allowed_image(image_name):
+      secured_filename = secure_filename(image_name) 
+      upload_image_path = app.config['IMAGE_FOLDER']
+      image_path = os.path.join(upload_image_path, secured_filename)
+      os.makedirs(upload_image_path, exist_ok=True)
+      image.save(image_path)        
+      if os.path.exists(image_path):
+          print(f"IMAGE PATH: {image_path} does exist !!")
+          return image_path
+      else:
+          print(f"IMAGE PATH: {image_path} doesn't exist.") 
+  else:
+      return None
     
 
 # Removes An Upload/Image From Respective Directories    
@@ -118,13 +119,13 @@ def upload_song():
         return render_template('upload_song.html', form=form)
     
     form = UploadSongForm()
-    
-    file = request.files['filename'] 
-    filename = file.filename            
+    file = form.data['filename']
+    filename = file.filename
     file_path = save_song(file, filename)
-
-    image = request.files['image']
+    
+    image = form.data['image']
     image_name = image.filename
+
     if image and image_name:
         image_path = save_image(image, image_name)
     else: 
@@ -344,22 +345,16 @@ def tester():
     return song.image
 
 
-@app.route('/api/uploads')
-def get_uploads():
-    uploads = [f for f in os.listdir(app.config['UPLOAD_FOLDER']) if os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], f))]
-    return jsonify(uploads)
-
-
 ## SERVING ROUTES ##
 
-@app.route('/api/images')
-def get_images():
-  songs = Song.query.all()
-  all_songs = []
-  for song in songs:
-      all_songs.append(song.to_dict())
-  return all_songs
+# @app.route('/api/images')
+# def get_images():
+#   songs = Song.query.all()
+#   all_songs = []
+#   for song in songs:
+#       all_songs.append(song.to_dict())
+#   return all_songs
   
- 
+
 
     
