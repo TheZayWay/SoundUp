@@ -155,47 +155,62 @@ def upload_song():
 #Update Song
 @app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
 def update_song_information(id):
-    form = UploadSongForm()
-    song_in_db = Song.query.get(id)
-
-    if request.method == 'GET':
-        return render_template('update_song.html', form=form)
-    
-    if request.method in ['PUT', 'POST'] and form.validate_on_submit():
-        
-        remove_from_uploads(id)
-        delete_file_from_s3('soundupbucket', song_in_db.filename)
-        file = request.files['filename']   
-        filename = file.filename         
-        file_path = save_song(file, filename, app.config['UPLOAD_FOLDER'])
-        file_url = upload_to_s3(file, 'soundupbucket')
-        image = request.files['image']
-        if image:
-            if song_in_db.image != "":
-                remove_from_images(id)
-                delete_file_from_s3('soundupbucket', song_in_db.image)
-            image_name = image.filename
-            image_path = save_image(image, image_name, app.config['IMAGE_FOLDER'])
-            image_url = upload_to_s3(image, 'soundupbucket')
-        else:
-            image_name = song_in_db.image
-            image_path = song_in_db.image_path
-
-        song_to_update = Song.query.get(id)
-        song_to_update.filename = filename
-        
-        song_to_update.title = form.data['title']
-        song_to_update.artist = form.data['artist']
-        song_to_update.album = form.data['album']
-        song_to_update.genre = form.data['genre']
-        song_to_update.image = image_name
-        song_to_update.file_path = file_path
-        song_to_update.image_path = image_path
-        db.session.commit()
-        print(f"Updated Song in database.")
-        return song_to_update.to_dict()
+  form = UploadSongForm()
+  song_in_db = Song.query.get(id)
+  
+  if request.method == 'GET':
+      return render_template('update_song.html', form=form)
+  
+  if request.method in ['PUT', 'POST'] and form.validate_on_submit():
+    delete_file_from_s3('soundupbucket', song_in_db.filename)
+    file = request.files['filename']
+    filename = file.filename   
+    upload_to_s3(file)
+    file_path = S3_LOCATION + file.filename
+     
+    image = request.files['image']
+    if image:
+      if song_in_db.image != "":
+        delete_file_from_s3('soundupbucket', song_in_db.image)
+      image_name = image.filename
+      upload_to_s3(image)
+      image_path = S3_LOCATION + image.filename
     else:
-        return render_template('update_song.html', form=form)
+      image_name = song_in_db.image
+      image_path = song_in_db.image_path
+
+    song_to_update = Song.query.get(id)
+    song_to_update.filename = filename 
+    song_to_update.title = form.data['title']
+    song_to_update.artist = form.data['artist']
+    song_to_update.album = form.data['album']
+    song_to_update.genre = form.data['genre']
+    song_to_update.image = image_name
+    song_to_update.file_path = file_path
+    song_to_update.image_path = image_path
+    db.session.commit()
+    print(f"Updated Song in database.")
+    return song_to_update.to_dict()
+  else:
+    return render_template('update_song.html', form=form)
+
+# Deletes Song 
+@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
+def delete_song_from_db(id):
+  song_for_db = Song.query.get(id)
+  filename = song_for_db.filename
+  image_name = song_for_db.image
+
+  delete_file_from_s3('soundupbucket', filename)
+  
+  if song_for_db.image != "" and song_for_db.image_path != None:
+      delete_file_from_s3('soundupbucket', image_name)
+  
+  db.session.delete(song_for_db)
+  db.session.commit()
+  print(f"{filename} was succesfully deleted from uploads w/ image and DB")
+  return f"{filename} was successfully deleted from uploads w/ image and DB."
+
 
 
 #Play Song 
@@ -219,22 +234,7 @@ def audio_player():
   return render_template('audio_player.html', file_names=file_names)
 
 
-# Deletes Song 
-@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
-def delete_song_from_db(id):
-  song_for_db = Song.query.get(id)
-  filename = song_for_db.filename
-  image_name = song_for_db.image
 
-  delete_file_from_s3('soundupbucket', filename)
-  
-  if song_for_db.image != "" and song_for_db.image_path != None:
-      delete_file_from_s3('soundupbucket', image_name)
-  
-  db.session.delete(song_for_db)
-  db.session.commit()
-  print(f"{filename} was succesfully deleted from uploads w/ image and DB")
-  return f"{filename} was successfully deleted from uploads w/ image and DB."
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
