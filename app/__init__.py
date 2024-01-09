@@ -171,24 +171,28 @@ def update_song_information(id):
         return render_template('update_song.html', form=form)
     
     if request.method in ['PUT', 'POST'] and form.validate_on_submit():
-        remove_from_uploads(id)
         
+        remove_from_uploads(id)
+        delete_file_from_s3('soundupbucket', song_in_db.filename)
         file = request.files['filename']   
         filename = file.filename         
-        file_path = save_song(file, filename)
-
+        file_path = save_song(file, filename, app.config['UPLOAD_FOLDER'])
+        file_url = upload_to_s3(file, 'soundupbucket')
         image = request.files['image']
         if image:
             if song_in_db.image != "":
                 remove_from_images(id)
+                delete_file_from_s3('soundupbucket', song_in_db.image)
             image_name = image.filename
-            image_path = save_image(image, image_name)
+            image_path = save_image(image, image_name, app.config['IMAGE_FOLDER'])
+            image_url = upload_to_s3(image, 'soundupbucket')
         else:
             image_name = song_in_db.image
             image_path = song_in_db.image_path
 
         song_to_update = Song.query.get(id)
         song_to_update.filename = filename
+        
         song_to_update.title = form.data['title']
         song_to_update.artist = form.data['artist']
         song_to_update.album = form.data['album']
