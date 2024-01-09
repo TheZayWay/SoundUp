@@ -6,7 +6,7 @@ import './CoverArt.css';
 function CoverArt () {
   const dispatch = useDispatch();
   const songsArr = useSelector((state) => state?.song?.allSongs);
-  console.log(songsArr)
+  
   useEffect(() => {
     dispatch(getAllSongsThunk())
   }, [dispatch])
@@ -14,7 +14,7 @@ function CoverArt () {
   return (
     <>
       
-      {songsArr ? songsArr.map((song,idx) => { return <img key={idx} src={song.imagepath} alt='CoverArt'></img>}) : ""}
+      {songsArr ? songsArr.map((song,idx) => { return <img className='cover-art-image' key={idx} src={song.imagepath} alt='CoverArt'></img>}) : ""}
     </>
   )
 };

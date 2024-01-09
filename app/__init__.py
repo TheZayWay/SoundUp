@@ -129,21 +129,22 @@ def update_song(id):
     return render_template('update_song.html', form=form)
 
 # Delete Song
-@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
+@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
 def delete_song(id):
-  song_for_db = Song.query.get(id)
-  filename = song_for_db.filename
-  image_name = song_for_db.image
+  if request.method == "GET":
+    song_for_db = Song.query.get(id)
+    filename = song_for_db.filename
+    image_name = song_for_db.image
 
-  delete_file_from_s3('soundupbucket', filename)
-  
-  if song_for_db.image != "" and song_for_db.image_path != None:
-      delete_file_from_s3('soundupbucket', image_name)
-  
-  db.session.delete(song_for_db)
-  db.session.commit()
-  print(f"{filename} was succesfully deleted from uploads w/ image and DB")
-  return f"{filename} was successfully deleted from uploads w/ image and DB."
+    delete_file_from_s3('soundupbucket', filename)
+    
+    if song_for_db.image != "" and song_for_db.image_path != None:
+        delete_file_from_s3('soundupbucket', image_name)
+    
+    db.session.delete(song_for_db)
+    db.session.commit()
+    print(f"{filename} was succesfully deleted from uploads w/ image and DB")
+    return f"{filename} was successfully deleted from uploads w/ image and DB."
 
 
 #Play Song 

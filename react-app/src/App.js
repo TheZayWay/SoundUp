@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import HomePage from "./components/Home";
 import { authenticate } from "./store/session";
 import UploadSong from "./components/Upload";
+import UpdateSong from "./components/Update";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ function App() {
         <Switch>
           <Route path="/upload">
             <UploadSong />
+          </Route>
+          <Route path="/update">
+            <UpdateSong />
           </Route>
           <Route path="/login" >
             <LoginFormPage />

@@ -5,6 +5,7 @@ import OpenModalButton from '../../OpenModalButton';
 import UploadSong from '../../Upload';
 import '../Navigation.css';
 
+
 function LoggedInHomeNavigation () {
   const dispatch = useDispatch();
   const handleLogOut = async (e) => {
@@ -18,6 +19,7 @@ function LoggedInHomeNavigation () {
         <OpenModalButton 
           buttonText={"Upload"}
           modalComponent={<UploadSong />}
+          className="upload-modal"
         />
         <button id="homepage-logout-btn" onClick={handleLogOut}>Log Out</button>
       </div>  

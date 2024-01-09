@@ -1,5 +1,6 @@
 const GET_ALL_SONGS = "song/GET_ALL_SONGS";
-const UPLOAD_SONG = "song/UPLOAD_SONG"
+const UPLOAD_SONG = "song/UPLOAD_SONG";
+const UPDATE_SONG = "song/UPDATE_SONG";
 
 const getAllSongs = (songs) => ({
   type: GET_ALL_SONGS,
@@ -41,6 +42,23 @@ export const uploadSongThunk = (songData) => async (dispatch) => {
   }
 }
 
+export const updateSongThunk = (songData, songId) => async (dispatch) => {
+  try {
+    const formData = new FormData();
+    Object.entries(songData).forEach(([key,val]) => {
+      formData.append(key,val)
+    });
+    
+    await fetch(`/api/songs/${songId}update`, {
+      method: 'POST',
+      body: formData      
+    });
+
+  } catch (error) {
+      console.error('Error uploading song:', error.message);
+  }
+}
+
 const initialState = {}
 
 export default function song (state = initialState, action) {
@@ -51,6 +69,11 @@ export default function song (state = initialState, action) {
       return newState
     }
     case UPLOAD_SONG: {
+      const newState = {...state}
+      newState[action.song] = action.song
+      return newState
+    }
+    case UPDATE_SONG: {
       const newState = {...state}
       newState[action.song] = action.song
       return newState
