@@ -29,15 +29,12 @@ export const uploadSongThunk = (songData) => async (dispatch) => {
     const formData = new FormData();
     Object.entries(songData).forEach(([key,val]) => {
       formData.append(key,val)
-      console.log(formData)
+      console.log(key)
+      console.log(val)
     });
-    console.log(formData, "FORM DATA")
     
     const response = fetch("/api/songs/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data"
-      },
+      method: 'POST',
       body: formData      
     });
 

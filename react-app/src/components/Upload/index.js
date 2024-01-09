@@ -23,7 +23,7 @@ function UploadSong () {
     };
     return await dispatch(uploadSongThunk(songData));
   }
-  
+
   return (
     <div>
       <form onSubmit={handleSubmit} encType="multipart/form-data">

@@ -113,7 +113,7 @@ def remove_from_images(id):
 ## UPLOAD ROUTES ##
 
 #Upload Song
-@app.route('/api/songs/upload', methods=['POST', 'GET'])
+@app.route('/api/songs/upload', methods=['POST'])
 def upload_song():
     if request.method == 'GET':
         form = UploadSongForm()
@@ -121,50 +121,46 @@ def upload_song():
     
     form = UploadSongForm()
     
-    print(form.data)
-    if form.validate_on_submit():
-      file = form.data['filename']  
-      image = form.data['image']
-      print(file)
-      print(image)
-    
-      if file:
-          filename = file.filename
-          file_path = save_song(file, filename, app.config['UPLOAD_FOLDER'])
-          file_url = upload_to_s3(file, 'soundupbucket')
-      else:
-          file_url = None
-          file_path = None
-
-      if image:
-          image_name = image.filename
-          image_path = save_image(image, image_name, app.config['IMAGE_FOLDER'])
-          image_url = upload_to_s3(image, 'soundupbucket')
-      else:
-          image_url = None
-          image_path = None
-    
-      if file_path:
-          song = Song(
-              filename = filename,
-              title = form.data['title'],
-              artist = form.data['artist'],
-              album = form.data['album'],
-              genre = form.data['genre'],
-              image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
-              file_path = file_path,
-              image_path = image_path
-          )     
-          db.session.add(song)
-          db.session.commit()
-          print(f"Added Song to database.")
-          return jsonify(song.to_dict()), 201 
-      else:
-          print(f"Could not add Song to database.")
-          return jsonify({"error": "Internal Server Error"}), 500
+    file = form.data['filename']  
+    image = form.data['image']
+    print(file, "FILE")
+    print(image, 'IMAGE')
+  
+    if file:
+        filename = file.filename
+        file_path = save_song(file, filename, app.config['UPLOAD_FOLDER'])
+        file_url = upload_to_s3(file, 'soundupbucket')
     else:
-        print("DIDNT MAKE IT ")
-        return "NOPE"  
+        file_url = None
+        file_path = None
+
+    if image:
+        image_name = image.filename
+        image_path = save_image(image, image_name, app.config['IMAGE_FOLDER'])
+        image_url = upload_to_s3(image, 'soundupbucket')
+    else:
+        image_url = None
+        image_path = None
+  
+    if file_path:
+        song = Song(
+            filename = filename,
+            title = form.data['title'],
+            artist = form.data['artist'],
+            album = form.data['album'],
+            genre = form.data['genre'],
+            image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
+            file_path = file_path,
+            image_path = image_path
+        )     
+        db.session.add(song)
+        db.session.commit()
+        print(f"Added Song to database.")
+        return jsonify(song.to_dict()), 201 
+    else:
+        print(f"Could not add Song to database.")
+        return jsonify({"error": "Internal Server Error"}), 500
+    
 
 
 #Update Song
