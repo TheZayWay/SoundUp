@@ -2,8 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, FileField, SubmitField
 from wtforms.validators import DataRequired, ValidationError
 
-## If the validations dont show on front end try taking out self
-## and get rid of .data.filename and see if that works 
+# If the validations dont show on front end try taking out self
+# and get rid of .data.filename and see if that works 
 def allowed_file(self,field):
     allowed_extensions = {'mp3', 'wav', 'flac'}
     if '.' in field.data.filename and field.data.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:

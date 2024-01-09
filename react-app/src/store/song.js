@@ -29,13 +29,18 @@ export const uploadSongThunk = (songData) => async (dispatch) => {
     const formData = new FormData();
     Object.entries(songData).forEach(([key,val]) => {
       formData.append(key,val)
+      console.log(formData)
     });
+    console.log(formData, "FORM DATA")
     
-    return await fetch("/api/songs/upload", {
+    const response = fetch("/api/songs/upload", {
       method: "POST",
-      body: formData
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      body: formData      
     });
-    
+
   } catch (error) {
       console.error('Error uploading song:', error.message);
   }

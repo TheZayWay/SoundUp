@@ -121,10 +121,13 @@ def upload_song():
     
     form = UploadSongForm()
     
+    print(form.data)
     if form.validate_on_submit():
       file = form.data['filename']  
       image = form.data['image']
-      
+      print(file)
+      print(image)
+    
       if file:
           filename = file.filename
           file_path = save_song(file, filename, app.config['UPLOAD_FOLDER'])
@@ -140,7 +143,7 @@ def upload_song():
       else:
           image_url = None
           image_path = None
-
+    
       if file_path:
           song = Song(
               filename = filename,
@@ -155,10 +158,13 @@ def upload_song():
           db.session.add(song)
           db.session.commit()
           print(f"Added Song to database.")
-          return song.to_dict()
+          return jsonify(song.to_dict()), 201 
       else:
           print(f"Could not add Song to database.")
-          return "Song not added."
+          return jsonify({"error": "Internal Server Error"}), 500
+    else:
+        print("DIDNT MAKE IT ")
+        return "NOPE"  
 
 
 #Update Song
