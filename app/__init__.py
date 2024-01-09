@@ -114,42 +114,42 @@ def remove_from_images(id):
 #Upload Song
 @app.route('/api/songs/upload', methods=['POST'])
 def upload_song():
-    form = UploadSongForm()
-    file = request.files['filename']
-    image = request.files['image']
-  
-    if file:
-        filename = file.filename
-        upload_to_s3(file)
-        file_path = S3_LOCATION + file.filename      
-    else:
-        file_path = None
+  form = UploadSongForm()
+  file = request.files['filename']
+  image = request.files['image']
 
-    if image:
-        image_name = image.filename
-        upload_to_s3(image)
-        image_path = S3_LOCATION + image.filename
-    else:
-        image_path = None
-  
-    if file:
-        song = Song(
-            filename = filename,
-            title = form.data['title'],
-            artist = form.data['artist'],
-            album = form.data['album'],
-            genre = form.data['genre'],
-            image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
-            file_path = file_path,
-            image_path = image_path
-        )     
-        db.session.add(song)
-        db.session.commit()
-        print(f"Added Song to database.")
-        return song.to_dict()
-    else:
-        print(f"Could not add Song to database.")
-        return jsonify({"error": "Internal Server Error"}), 500
+  if file:
+      filename = file.filename
+      upload_to_s3(file)
+      file_path = S3_LOCATION + file.filename      
+  else:
+      file_path = None
+
+  if image:
+      image_name = image.filename
+      upload_to_s3(image)
+      image_path = S3_LOCATION + image.filename
+  else:
+      image_path = None
+
+  if file:
+      song = Song(
+          filename = filename,
+          title = form.data['title'],
+          artist = form.data['artist'],
+          album = form.data['album'],
+          genre = form.data['genre'],
+          image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
+          file_path = file_path,
+          image_path = image_path
+      )     
+      db.session.add(song)
+      db.session.commit()
+      print(f"Added Song to database.")
+      return song.to_dict()
+  else:
+      print(f"Could not add Song to database.")
+      return jsonify({"error": "Internal Server Error"}), 500
     
 
 #Update Song
@@ -201,45 +201,40 @@ def update_song_information(id):
 #Play Song 
 @app.route('/api/songs/play/uploads/<path:filename>', methods=['GET'])
 def play_song(filename):
-    """
-    App root is variable for os path till app
-    File path is the absolute path which is necessary 
-    for send_file or send_from_directory 
-    """
-    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + filename
-    # return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-    return send_file(file_path, as_attachment=True)
+  """
+  App root is variable for os path till app
+  File path is the absolute path which is necessary 
+  for send_file or send_from_directory 
+  """
+  root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+  file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + filename
+  # return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+  return send_file(file_path, as_attachment=True)
 
 @app.route('/api/songs/audio_player', methods=['GET'])
 def audio_player():
-    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    file_path = root + '/' + app.config['UPLOAD_FOLDER']
-    file_names = os.listdir(file_path)
-    return render_template('audio_player.html', file_names=file_names)
+  root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+  file_path = root + '/' + app.config['UPLOAD_FOLDER']
+  file_names = os.listdir(file_path)
+  return render_template('audio_player.html', file_names=file_names)
 
 
 # Deletes Song 
 @app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
 def delete_song_from_db(id):
-    """
-    Deletes song and image from DB
-    and from /uploads and /images
-    """
+  song_for_db = Song.query.get(id)
+  filename = song_for_db.filename
+  image_name = song_for_db.image
 
-    if request.method == "GET":
-      song_for_db = Song.query.get(id)
-      filename = song_for_db.filename
-      image_name = song_for_db.image
-      remove_from_uploads(id)
-      delete_file_from_s3('soundupbucket', filename)
-      if song_for_db.image != "" and song_for_db.image_path != None:
-          remove_from_images(id)
-          delete_file_from_s3('soundupbucket', image_name)
-      db.session.delete(song_for_db)
-      db.session.commit()
-      print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
-      return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
+  delete_file_from_s3('soundupbucket', filename)
+  
+  if song_for_db.image != "" and song_for_db.image_path != None:
+      delete_file_from_s3('soundupbucket', image_name)
+  
+  db.session.delete(song_for_db)
+  db.session.commit()
+  print(f"{filename} was succesfully deleted from uploads w/ image and DB")
+  return f"{filename} was successfully deleted from uploads w/ image and DB."
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
@@ -254,66 +249,57 @@ CORS(app)
 #Request converted from http to https
 @app.before_request
 def https_redirect():
-    if os.environ.get('FLASK_ENV') == 'production':
-        if request.headers.get('X-Forwarded-Proto') == 'http':
-            url = request.url.replace('http://', 'https://', 1)
-            code = 301
-            return redirect(url, code=code)
+  if os.environ.get('FLASK_ENV') == 'production':
+      if request.headers.get('X-Forwarded-Proto') == 'http':
+          url = request.url.replace('http://', 'https://', 1)
+          code = 301
+          return redirect(url, code=code)
     
 #Injects csrf token in response
 @app.after_request
 def inject_csrf_token(response):
-    response.set_cookie(
-        'csrf_token',
-        generate_csrf(),
-        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='Strict' if os.environ.get(
-            'FLASK_ENV') == 'production' else None,
-        httponly=True)
-    return response
+  response.set_cookie(
+      'csrf_token',
+      generate_csrf(),
+      secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
+      samesite='Strict' if os.environ.get(
+          'FLASK_ENV') == 'production' else None,
+      httponly=True)
+  return response
 
 #Show all backend APIs/ doc or null on browser
 @app.route("/api/docs")
 def api_help():
-    """
-    Returns all API routes and their doc strings
-    """
-    acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
-    route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
-                    app.view_functions[rule.endpoint].__doc__ ]
-                    for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
-    return route_list
+  """
+  Returns all API routes and their doc strings
+  """
+  acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+  route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
+                  app.view_functions[rule.endpoint].__doc__ ]
+                  for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
+  return route_list
 
 
 @app.route('/favicon.ico')
 def favicon():
-    return '', 204
+  return '', 204
 
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def react_root(path):
-    """
-    This route will direct to the public directory in our
-    react builds in the production environment for favicon
-    or index.html requests
-    """
-    if path == 'favicon.ico':
-        return app.send_from_directory('public', 'favicon.ico')
-    # return app.send_static_file('index.html')
+  """
+  This route will direct to the public directory in our
+  react builds in the production environment for favicon
+  or index.html requests
+  """
+  if path == 'favicon.ico':
+      return app.send_from_directory('public', 'favicon.ico')
+  # return app.send_static_file('index.html')
 
 
 @app.errorhandler(404)
 def not_found(e):
-    return app.send_static_file('index.html')
+  return app.send_static_file('index.html')
 
-## SERVING ROUTES ##
 
-@app.route('/api/images')
-def get_images():
-  songs = Song.query.all()
-  all_songs = []
-  for song in songs:
-      all_songs.append(song.to_dict())
-  return all_songs
-  
