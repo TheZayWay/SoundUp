@@ -11,7 +11,6 @@ const getAllSongs = (songs) => ({
 //   songData
 // })
 
-
 export const getAllSongsThunk = () => async (dispatch) => {
   const response = await fetch("/api/songs/", {
     headers: {

@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user
 from werkzeug.utils import secure_filename
+from aws_config import s3
+from s3_helpers import upload_to_s3, delete_file_from_s3
 from .models import db, User, Song
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -31,10 +33,8 @@ def load_user(id):
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 
-UPLOAD_FOLDER = 'uploads'
-IMAGE_FOLDER = 'images'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Uploads')
+app.config['IMAGE_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Images')
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}
 app.config['ALLOWED_IMAGES']  = {'png', 'jpeg', 'jpg'}
 
@@ -51,12 +51,12 @@ def allowed_image(image):
 
 
 #Saves Approved Files/Images Through app.config
-def save_song(file, filename):
+def save_song(file, filename, upload_folder):
     if filename and allowed_file(filename):
         
         secured_filename = secure_filename(filename) 
-        upload_file_path = app.config['UPLOAD_FOLDER']
-        file_path = os.path.join(upload_file_path, secured_filename)
+        file_path = os.path.join(upload_folder, secured_filename)
+        os.makedirs(upload_folder, exist_ok=True)
         file.save(file_path)
 
         if os.path.exists(file_path):
@@ -67,13 +67,14 @@ def save_song(file, filename):
     else:
         return None
 
-def save_image(image, image_name):
+def save_image(image, image_name, image_folder):
   if image_name and allowed_image(image_name):
+      
       secured_filename = secure_filename(image_name) 
-      upload_image_path = app.config['IMAGE_FOLDER']
-      image_path = os.path.join(upload_image_path, secured_filename)
-      os.makedirs(upload_image_path, exist_ok=True)
-      image.save(image_path)        
+      image_path = os.path.join(image_folder, secured_filename)
+      os.makedirs(image_folder, exist_ok=True)
+      image.save(image_path)   
+
       if os.path.exists(image_path):
           print(f"IMAGE PATH: {image_path} does exist !!")
           return image_path
@@ -89,7 +90,7 @@ def remove_from_uploads(id):
     transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '').replace("#", '').replace('(', '').replace(')', '')
 
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + transformed_song
+    file_path = app.config['UPLOAD_FOLDER'] + '/' + transformed_song
     if file_path:
         os.remove(file_path)
         print(f"FILE PATH {file_path} was removed!!")
@@ -102,7 +103,7 @@ def remove_from_images(id):
     transformed_image = image.replace(' ', '_').replace(',', '').replace("'", '')
 
     root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    image_path = root + '/' + app.config['IMAGE_FOLDER'] + '/' + transformed_image
+    image_path = app.config['IMAGE_FOLDER'] + '/' + transformed_image
     os.remove(image_path)
 
     print(f"IMAGE PATH {image_path} was removed")
@@ -119,36 +120,45 @@ def upload_song():
         return render_template('upload_song.html', form=form)
     
     form = UploadSongForm()
-    file = form.data['filename']
-    filename = file.filename
-    file_path = save_song(file, filename)
     
-    image = form.data['image']
-    image_name = image.filename
+    if form.validate_on_submit():
+      file = form.data['filename']  
+      image = form.data['image']
+      
+      if file:
+          filename = file.filename
+          file_path = save_song(file, filename, app.config['UPLOAD_FOLDER'])
+          file_url = upload_to_s3(file, 'soundupbucket')
+      else:
+          file_url = None
+          file_path = None
 
-    if image and image_name:
-        image_path = save_image(image, image_name)
-    else: 
-        image_path = None
+      if image:
+          image_name = image.filename
+          image_path = save_image(image, image_name, app.config['IMAGE_FOLDER'])
+          image_url = upload_to_s3(image, 'soundupbucket')
+      else:
+          image_url = None
+          image_path = None
 
-    if file_path:
-        song = Song(
-            filename = filename,
-            title = form.data['title'],
-            artist = form.data['artist'],
-            album = form.data['album'],
-            genre = form.data['genre'],
-            image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
-            file_path = file_path,
-            image_path = image_path
-        )     
-        db.session.add(song)
-        db.session.commit()
-        print(f"Added Song to database.")
-        return song.to_dict()
-    else:
-        print(f"Could not add Song to database.")
-        return "Song not added."
+      if file_path:
+          song = Song(
+              filename = filename,
+              title = form.data['title'],
+              artist = form.data['artist'],
+              album = form.data['album'],
+              genre = form.data['genre'],
+              image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
+              file_path = file_path,
+              image_path = image_path
+          )     
+          db.session.add(song)
+          db.session.commit()
+          print(f"Added Song to database.")
+          return song.to_dict()
+      else:
+          print(f"Could not add Song to database.")
+          return "Song not added."
 
 
 #Update Song
@@ -225,38 +235,14 @@ def delete_song_from_db(id):
     if request.method == "GET":
       song_for_db = Song.query.get(id)
       remove_from_uploads(id)
+      delete_file_from_s3('soundupbucket', 'Arabesque no. 1 (bass guitar arr.).mp3')
       if song_for_db.image != "" and song_for_db.image_path != None:
           remove_from_images(id)
+          delete_file_from_s3('soundupbucket', 'arthur-debons-GKwWs_PiEMw-unsplash.jpg')
       db.session.delete(song_for_db)
       db.session.commit()
       print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
       return f"{song_for_db} was successfully deleted from uploads w/ image and DB."
-
-
-## Peep Inside Relevant Object Methods ##
-
-#Config
-@app.route('/api/config')
-def see_config():
-    upload_folder_path = app.config['UPLOAD_FOLDER']
-    image_folder_path = app.config['IMAGE_FOLDER']
-    files = os.listdir(upload_folder_path)
-    images = os.listdir(image_folder_path)
-    for file in files:
-        print(os.path.abspath(file))
-    for image in images:
-        print(os.path.abspath(image))
-    
-    return f"Contents: {upload_folder_path}: {files} \n {image_folder_path}: {images}"
-
-
-#Request
-app.route('/api/files')
-def see_request_files():
-    for key, file_storage in request.files.items():
-        print(f"File field name: {key}")
-        print(f"File name: {file_storage.filename}")
-        print(f"Content type: {file_storage.content_type}")
 
 
 app.register_blueprint(user_routes, url_prefix='/api/users')
@@ -324,27 +310,6 @@ def react_root(path):
 def not_found(e):
     return app.send_static_file('index.html')
 
-#Testing Routes
-@app.route("/api/deletesong", methods=['GET'])
-def remove_song():
-    """
-    Delete a specific song
-    Just swap out filename or config['IMAGE_FOLDER']
-    """
-    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + 'Arabesque_no._1_bass_guitar_arr..mp3'
-    os.remove(file_path)
-    return "Song removed from uploads folder"
-
-
-@app.route("/api/test", methods=['GET'])
-def tester():
-    song = Song.query.get(6)
-    print("IMAGE",song.image)
-    print("PATH", song.image_path)
-    return song.image
-
-
 ## SERVING ROUTES ##
 
 # @app.route('/api/images')
@@ -355,6 +320,7 @@ def tester():
 #       all_songs.append(song.to_dict())
 #   return all_songs
   
-
-
+@app.route('/api/allfiles')
+def serve_uploaded_file():
     
+    return send_from_directory(os.path.join(app.root_path, 'uploads'))

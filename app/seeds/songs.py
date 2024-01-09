@@ -1,7 +1,6 @@
 from app.models import db, environment, SCHEMA, Song
 from sqlalchemy.sql import text
 
-
 def seed_songs():
     song1 = Song(
         filename="The Well Tempered Clavier, Book I, BWV 846-869 - Prelude in Fugue No.2 in C minor.mp3",
@@ -65,7 +64,6 @@ def seed_songs():
     db.session.add(song4)
     db.session.add(song5)
     db.session.commit()
-    
 
 def undo_songs():
     if environment == "production":
