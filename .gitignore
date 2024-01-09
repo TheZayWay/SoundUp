@@ -8,3 +8,4 @@ __pycache__/
 /uploads
 /images
 aws_config.py
+s3_helpers.py
