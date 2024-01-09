@@ -64,6 +64,7 @@ function UploadSong () {
         <input 
           type="file"
           onChange={(e) => setImage(e.target.files[0])}
+          accept="image/*"
         />
         <button type="submit">Upload</button>
       </form> 

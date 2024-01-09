@@ -4,7 +4,6 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user
 from werkzeug.utils import secure_filename
-from aws_config import s3
 from s3_helpers import upload_to_s3, delete_file_from_s3
 from .models import db, User, Song
 from .api.user_routes import user_routes
@@ -15,7 +14,7 @@ from .seeds import seed_commands
 from .config import Config
 from pprint import pprint
 import os
-
+S3_LOCATION = f"http://soundupbucket.s3.amazonaws.com/"
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -115,34 +114,25 @@ def remove_from_images(id):
 #Upload Song
 @app.route('/api/songs/upload', methods=['POST'])
 def upload_song():
-    if request.method == 'GET':
-        form = UploadSongForm()
-        return render_template('upload_song.html', form=form)
-    
     form = UploadSongForm()
-    
-    file = form.data['filename']  
-    image = form.data['image']
-    print(file, "FILE")
-    print(image, 'IMAGE')
+    file = request.files['filename']
+    image = request.files['image']
   
     if file:
         filename = file.filename
-        file_path = save_song(file, filename, app.config['UPLOAD_FOLDER'])
-        file_url = upload_to_s3(file, 'soundupbucket')
+        upload_to_s3(file)
+        file_path = S3_LOCATION + file.filename      
     else:
-        file_url = None
         file_path = None
 
     if image:
         image_name = image.filename
-        image_path = save_image(image, image_name, app.config['IMAGE_FOLDER'])
-        image_url = upload_to_s3(image, 'soundupbucket')
+        upload_to_s3(image)
+        image_path = S3_LOCATION + image.filename
     else:
-        image_url = None
         image_path = None
   
-    if file_path:
+    if file:
         song = Song(
             filename = filename,
             title = form.data['title'],
@@ -156,12 +146,11 @@ def upload_song():
         db.session.add(song)
         db.session.commit()
         print(f"Added Song to database.")
-        return jsonify(song.to_dict()), 201 
+        return song.to_dict()
     else:
         print(f"Could not add Song to database.")
         return jsonify({"error": "Internal Server Error"}), 500
     
-
 
 #Update Song
 @app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
@@ -240,11 +229,13 @@ def delete_song_from_db(id):
 
     if request.method == "GET":
       song_for_db = Song.query.get(id)
+      filename = song_for_db.filename
+      image_name = song_for_db.image
       remove_from_uploads(id)
-      delete_file_from_s3('soundupbucket', 'Arabesque no. 1 (bass guitar arr.).mp3')
+      delete_file_from_s3('soundupbucket', filename)
       if song_for_db.image != "" and song_for_db.image_path != None:
           remove_from_images(id)
-          delete_file_from_s3('soundupbucket', 'arthur-debons-GKwWs_PiEMw-unsplash.jpg')
+          delete_file_from_s3('soundupbucket', image_name)
       db.session.delete(song_for_db)
       db.session.commit()
       print(f"{song_for_db} was succesfully deleted from uploads w/ image and DB")
@@ -318,15 +309,11 @@ def not_found(e):
 
 ## SERVING ROUTES ##
 
-# @app.route('/api/images')
-# def get_images():
-#   songs = Song.query.all()
-#   all_songs = []
-#   for song in songs:
-#       all_songs.append(song.to_dict())
-#   return all_songs
+@app.route('/api/images')
+def get_images():
+  songs = Song.query.all()
+  all_songs = []
+  for song in songs:
+      all_songs.append(song.to_dict())
+  return all_songs
   
-@app.route('/api/allfiles')
-def serve_uploaded_file():
-    
-    return send_from_directory(os.path.join(app.root_path, 'uploads'))

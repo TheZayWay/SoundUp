@@ -1,18 +1,20 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllSongsThunk } from '../../store/song';
 import './CoverArt.css';
 
 function CoverArt () {
-
-  
-  // useEffect(() => {
-  //   dispatch(getAllSongsThunk())
-  // }, [dispatch])
+  const dispatch = useDispatch();
+  const songsArr = useSelector((state) => state?.song?.allSongs);
+  console.log(songsArr)
+  useEffect(() => {
+    dispatch(getAllSongsThunk())
+  }, [dispatch])
 
   return (
     <>
-      {/* <div id="cover-art-image-cont">
-        {songsArr ? songsArr.map((song,idx) => <img className='cover-art-image' key={idx} src={song.imagepath} alt='Coverart'></img>) : ""}
-      </div> */}
       
+      {songsArr ? songsArr.map((song,idx) => { return <img key={idx} src={song.imagepath} alt='CoverArt'></img>}) : ""}
     </>
   )
 };
