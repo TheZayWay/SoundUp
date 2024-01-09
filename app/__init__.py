@@ -22,96 +22,33 @@ app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
-
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
 
+
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
-
 app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Uploads')
 app.config['IMAGE_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Images')
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}
 app.config['ALLOWED_IMAGES']  = {'png', 'jpeg', 'jpg'}
 
-### UPLOADS ROUTES & METHODS ###
 
-## UPLOAD METHODS ##
 
-#Boolean Checks If File Is Allowed
+
+# Boolean Checks If File Is Allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 def allowed_image(image):
     return '.' in image and image.rsplit('.', 1)[1].lower() in app.config['ALLOWED_IMAGES']
 
+### SONG ROUTES ###
 
-#Saves Approved Files/Images Through app.config
-def save_song(file, filename, upload_folder):
-    if filename and allowed_file(filename):
-        
-        secured_filename = secure_filename(filename) 
-        file_path = os.path.join(upload_folder, secured_filename)
-        os.makedirs(upload_folder, exist_ok=True)
-        file.save(file_path)
-
-        if os.path.exists(file_path):
-            print(f"FILE PATH: {file_path} does exist !!")
-            return file_path
-        else:
-            print(f"FILE PATH: {file_path} doesn't exist.") 
-    else:
-        return None
-
-def save_image(image, image_name, image_folder):
-  if image_name and allowed_image(image_name):
-      
-      secured_filename = secure_filename(image_name) 
-      image_path = os.path.join(image_folder, secured_filename)
-      os.makedirs(image_folder, exist_ok=True)
-      image.save(image_path)   
-
-      if os.path.exists(image_path):
-          print(f"IMAGE PATH: {image_path} does exist !!")
-          return image_path
-      else:
-          print(f"IMAGE PATH: {image_path} doesn't exist.") 
-  else:
-      return None
-    
-
-# Removes An Upload/Image From Respective Directories    
-def remove_from_uploads(id):
-    song = Song.query.get(id).filename
-    transformed_song = song.replace(' ', '_').replace(',', '').replace("'", '').replace("#", '').replace('(', '').replace(')', '')
-
-    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    file_path = app.config['UPLOAD_FOLDER'] + '/' + transformed_song
-    if file_path:
-        os.remove(file_path)
-        print(f"FILE PATH {file_path} was removed!!")
-    
-    print(f"{song} was succesfully deleted from /uploads.")
-    return f"{song} was successfully deleted from /uploads."
-
-def remove_from_images(id):
-    image = Song.query.get(id).image
-    transformed_image = image.replace(' ', '_').replace(',', '').replace("'", '')
-
-    root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    image_path = app.config['IMAGE_FOLDER'] + '/' + transformed_image
-    os.remove(image_path)
-
-    print(f"IMAGE PATH {image_path} was removed")
-    print(f"{image} was successfully deleted from /images")
-    return f"{image} was successfully deleted from /images"
-
-## UPLOAD ROUTES ##
-
-#Upload Song
+# Upload Song
 @app.route('/api/songs/upload', methods=['POST'])
 def upload_song():
   form = UploadSongForm()
@@ -152,14 +89,11 @@ def upload_song():
       return jsonify({"error": "Internal Server Error"}), 500
     
 
-#Update Song
+# Update Song
 @app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
-def update_song_information(id):
+def update_song(id):
   form = UploadSongForm()
   song_in_db = Song.query.get(id)
-  
-  if request.method == 'GET':
-      return render_template('update_song.html', form=form)
   
   if request.method in ['PUT', 'POST'] and form.validate_on_submit():
     delete_file_from_s3('soundupbucket', song_in_db.filename)
@@ -194,9 +128,9 @@ def update_song_information(id):
   else:
     return render_template('update_song.html', form=form)
 
-# Deletes Song 
-@app.route('/api/songs/<int:id>/delete', methods=['GET','DELETE'])
-def delete_song_from_db(id):
+# Delete Song
+@app.route('/api/songs/<int:id>/delete', methods=['DELETE'])
+def delete_song(id):
   song_for_db = Song.query.get(id)
   filename = song_for_db.filename
   image_name = song_for_db.image
@@ -210,7 +144,6 @@ def delete_song_from_db(id):
   db.session.commit()
   print(f"{filename} was succesfully deleted from uploads w/ image and DB")
   return f"{filename} was successfully deleted from uploads w/ image and DB."
-
 
 
 #Play Song 
@@ -233,10 +166,7 @@ def audio_player():
   file_names = os.listdir(file_path)
   return render_template('audio_player.html', file_names=file_names)
 
-
-
-
-
+# BluePrints
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(song_routes, url_prefix='/api/songs')
@@ -246,7 +176,7 @@ Migrate(app, db)
 # Application Security
 CORS(app)
 
-#Request converted from http to https
+# Request converted from http to https
 @app.before_request
 def https_redirect():
   if os.environ.get('FLASK_ENV') == 'production':
@@ -255,7 +185,7 @@ def https_redirect():
           code = 301
           return redirect(url, code=code)
     
-#Injects csrf token in response
+# Injects csrf token in response
 @app.after_request
 def inject_csrf_token(response):
   response.set_cookie(
@@ -267,19 +197,16 @@ def inject_csrf_token(response):
       httponly=True)
   return response
 
-#Show all backend APIs/ doc or null on browser
+# Show all backend APIs and/or docs
 @app.route("/api/docs")
 def api_help():
-  """
-  Returns all API routes and their doc strings
-  """
   acceptable_methods = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
   route_list = { rule.rule: [[ method for method in rule.methods if method in acceptable_methods ],
                   app.view_functions[rule.endpoint].__doc__ ]
                   for rule in app.url_map.iter_rules() if rule.endpoint != 'static' }
   return route_list
 
-
+# Favicon
 @app.route('/favicon.ico')
 def favicon():
   return '', 204
@@ -297,7 +224,7 @@ def react_root(path):
       return app.send_from_directory('public', 'favicon.ico')
   # return app.send_static_file('index.html')
 
-
+# 404
 @app.errorhandler(404)
 def not_found(e):
   return app.send_static_file('index.html')
