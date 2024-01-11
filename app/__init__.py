@@ -94,10 +94,11 @@ def upload_song():
 def update_song(id):
   form = UploadSongForm()
   song_in_db = Song.query.get(id)
-  
-  if request.method in ['PUT', 'POST'] and form.validate_on_submit():
+  print(song_in_db, "DB SONG BEFORE UPDATE")
+  if request.method in ['PUT', 'POST']:
     delete_file_from_s3('soundupbucket', song_in_db.filename)
     file = request.files['filename']
+    print(file, "NEW FILE WE WANT TO ADD")
     filename = file.filename   
     upload_to_s3(file)
     file_path = S3_LOCATION + file.filename

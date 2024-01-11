@@ -37,7 +37,6 @@ function UploadSong () {
 
   return (
     <div id="upload-form-cont">
-      
       <form id="upload-form" onSubmit={handleSubmit} encType="multipart/form-data">
         <h1>Upload song</h1>
         <div className="upload-divs">

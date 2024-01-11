@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSongsThunk } from '../../store/song';
+import UpdateSong from '../Update';
+import OpenModalButton from '../OpenModalButton';
 import './CoverArt.css';
 
 function CoverArt () {
@@ -13,8 +15,17 @@ function CoverArt () {
 
   return (
     <>
-      
-      {songsArr ? songsArr.map((song,idx) => { return <img className='cover-art-image' key={idx} src={song.imagepath} alt='CoverArt'></img>}) : ""}
+      {songsArr ? songsArr.map((song,idx) => { 
+        return (
+          <div>
+            <img className='cover-art-image' key={idx} src={song.imagepath} alt=''></img>
+            <OpenModalButton 
+              buttonText={"Update"}
+              modalComponent={<UpdateSong song={song}/>}
+              className="upload-modal"
+            />
+          </div>
+        )}) : ""}
     </>
   )
 };

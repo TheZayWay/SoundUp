@@ -48,9 +48,9 @@ export const updateSongThunk = (songData, songId) => async (dispatch) => {
     Object.entries(songData).forEach(([key,val]) => {
       formData.append(key,val)
     });
-    
-    await fetch(`/api/songs/${songId}update`, {
-      method: 'POST',
+
+    await fetch(`/api/songs/${songId}/update`, {
+      method: 'PUT',
       body: formData      
     });
 
