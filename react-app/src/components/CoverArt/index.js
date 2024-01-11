@@ -8,7 +8,7 @@ import './CoverArt.css';
 function CoverArt () {
   const dispatch = useDispatch();
   const songsArr = useSelector((state) => state?.song?.allSongs);
-  
+  console.log(songsArr, 'SONG ARRRRRRRRR ')
   useEffect(() => {
     dispatch(getAllSongsThunk())
   }, [dispatch])

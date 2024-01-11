@@ -94,26 +94,44 @@ def upload_song():
 def update_song(id):
   form = UploadSongForm()
   song_in_db = Song.query.get(id)
-  print(song_in_db, "DB SONG BEFORE UPDATE")
+
   if request.method in ['PUT', 'POST']:
-    delete_file_from_s3('soundupbucket', song_in_db.filename)
-    file = request.files['filename']
-    print(file, "NEW FILE WE WANT TO ADD")
-    filename = file.filename   
-    upload_to_s3(file)
-    file_path = S3_LOCATION + file.filename
-     
-    image = request.files['image']
-    if image:
-      if song_in_db.image != "":
-        delete_file_from_s3('soundupbucket', song_in_db.image)
-      image_name = image.filename
-      upload_to_s3(image)
-      image_path = S3_LOCATION + image.filename
+    for key, file in request.files.items():
+            print(f"Key: {key}, Filename: {file.filename}, Content-Type: {file.content_type}", "FUCKFUCKFUCK")
+    if 'filename' in request.files:
+      delete_file_from_s3('soundupbucket', song_in_db.filename)
+      file = request.files['filename']
+      upload_to_s3(file)
+      
+      filename = file.filename   
+      file_path = S3_LOCATION + file.filename
+      
+      song_to_update = Song.query.get(id)
+      song_to_update.filename = filename
+      db.session.commit()
+      print("File was replaced.")
+    else:
+      filename = song_in_db.filename
+      file_path = song_in_db.file_path
+      print("File is current.")
+
+    if 'image' in request.files:
+      image = request.files['image']
+      if image:
+        if song_in_db.image != "":
+          delete_file_from_s3('soundupbucket', song_in_db.image)
+        upload_to_s3(image)
+        image_name = image.filename
+        image_path = S3_LOCATION + image.filename
+        song_to_update = Song.query.get(id)
+        song_to_update.image = image_name
+        db.session.commit()
+        print("Image was replaced.")
     else:
       image_name = song_in_db.image
       image_path = song_in_db.image_path
-
+      print("Image is current.")
+      
     song_to_update = Song.query.get(id)
     song_to_update.filename = filename 
     song_to_update.title = form.data['title']

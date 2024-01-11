@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch} from "react-redux";
+import { useHistory } from "react-router-dom"
 import { useModal } from "../../context/Modal";
 import { updateSongThunk, getAllSongsThunk } from "../../store/song";
 import './Update.css'
@@ -34,6 +35,7 @@ function UpdateSong ({song}) {
     setIsLoaded(true);
     closeModal();
   }
+  
 
   useEffect(() => {
     setIsLoaded(false);
