@@ -96,8 +96,6 @@ def update_song(id):
   song_in_db = Song.query.get(id)
 
   if request.method in ['PUT', 'POST']:
-    for key, file in request.files.items():
-            print(f"Key: {key}, Filename: {file.filename}, Content-Type: {file.content_type}", "FUCKFUCKFUCK")
     if 'filename' in request.files:
       delete_file_from_s3('soundupbucket', song_in_db.filename)
       file = request.files['filename']
