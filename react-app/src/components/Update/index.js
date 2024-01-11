@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useDispatch} from "react-redux";
-import { useHistory } from "react-router-dom"
 import { useModal } from "../../context/Modal";
 import { updateSongThunk, getAllSongsThunk } from "../../store/song";
 import './Update.css'
@@ -38,13 +37,14 @@ function UpdateSong ({song}) {
   
 
   useEffect(() => {
+    dispatch(getAllSongsThunk())
     setIsLoaded(false);
   }, [dispatch, isLoaded])
 
   return (
     <div id="upload-form-cont">
       <form id="upload-form" onSubmit={handleSubmit} encType="multipart/form-data">
-        <h1>Upload song</h1>
+        <h1>Update song</h1>
         <div className="upload-divs">
           <span id="upload-inputs-title-song">Song</span>
           <label htmlFor="file-input" className="custom-file-label">
@@ -120,10 +120,10 @@ function UpdateSong ({song}) {
           />
         </div>
         <span style={{color:"white", fontSize: "0.7rem", marginTop: "0.5rem"}}>{image?.name}</span>
-        <button id="upload-btn" type="submit">Upload</button>
+        <button id="upload-btn" type="submit">Update</button>
       </form> 
     </div>
-  )
+  );
 };
 
 export default UpdateSong;

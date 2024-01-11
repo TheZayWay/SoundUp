@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSongsThunk } from '../../store/song';
 import UpdateSong from '../Update';
+import DeleteSong from '../Delete';
 import OpenModalButton from '../OpenModalButton';
 import './CoverArt.css';
 
 function CoverArt () {
   const dispatch = useDispatch();
   const songsArr = useSelector((state) => state?.song?.allSongs);
-  console.log(songsArr, 'SONG ARRRRRRRRR ')
+  
   useEffect(() => {
     dispatch(getAllSongsThunk())
   }, [dispatch])
@@ -19,11 +20,18 @@ function CoverArt () {
         return (
           <div>
             <img className='cover-art-image' key={idx} src={song.imagepath} alt=''></img>
-            <OpenModalButton 
-              buttonText={"Update"}
-              modalComponent={<UpdateSong song={song}/>}
-              className="upload-modal"
-            />
+            <div id="modal-crud-cont">
+              <OpenModalButton 
+                buttonText={"Update"}
+                modalComponent={<UpdateSong song={song}/>}
+                className="upload-modal"
+              />
+              <OpenModalButton 
+                buttonText={"Delete"}
+                modalComponent={<DeleteSong song={song}/>}
+                className="upload-modal"
+              />
+            </div>            
           </div>
         )}) : ""}
     </>

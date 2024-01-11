@@ -1,6 +1,7 @@
 const GET_ALL_SONGS = "song/GET_ALL_SONGS";
 const UPLOAD_SONG = "song/UPLOAD_SONG";
 const UPDATE_SONG = "song/UPDATE_SONG";
+const DELETE_SONG ="song/DELETE_SONG";
 
 const getAllSongs = (songs) => ({
   type: GET_ALL_SONGS,
@@ -60,6 +61,10 @@ export const updateSongThunk = (songData, songId) => async (dispatch) => {
   }
 }
 
+export const deleteSongThunk = (songId) => async (dispatch) => {
+  await fetch(`api/songs/${songId}/delete`)
+}
+
 const initialState = {}
 
 export default function song (state = initialState, action) {
@@ -79,6 +84,11 @@ export default function song (state = initialState, action) {
       newState[action.song] = action.song
       return newState
     }  
+    case DELETE_SONG: {
+      const newState = {...state}
+      delete newState[action.song]
+      return newState
+    }
     default:
       return state;  
   }
