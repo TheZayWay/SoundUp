@@ -16,6 +16,10 @@ function DeleteSong ({song}) {
     setIsLoaded(true);
     closeModal();
   }
+
+  const handleCancel = () => {
+    closeModal();
+  }
   
   useEffect(() => {
     dispatch(getAllSongsThunk())
@@ -23,11 +27,14 @@ function DeleteSong ({song}) {
   }, [dispatch, isLoaded])
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Are you sure?</h1>
-      <button type="submit">Yes (Delete)</button>
-      <button>No (Cancel)</button>
-    </form>
+    <div id="delete-form-cont">
+      <form id="delete-form" onSubmit={handleSubmit}>
+        <h1 id="delete-title">Are you sure?</h1>
+        <button className="delete-btn-y" type="submit">Yes (Delete)</button>
+      </form>
+      <button className="delete-btn-n" onClick={handleCancel}>No (Cancel)</button>
+    </div>
+    
   );
 };
 

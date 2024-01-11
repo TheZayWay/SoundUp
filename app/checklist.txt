@@ -1,8 +1,0 @@
-1. Finish adding all error validations for backend if necessary 
-
-2. Backend is done for now!
-
-3. Add current_user in order to assign a user_id to each song (Do this when starting front end)
-
-4. Find a way to make a query within the seed method that will add files/images to respective directories (Might be necessary)
-

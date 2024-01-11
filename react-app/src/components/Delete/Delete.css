@@ -1,0 +1,39 @@
+#delete-form-cont {
+  height: 15rem;
+  width: 15rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.delete-btn-y {
+  background-color: red;
+  color: white;
+  border: 2px solid black;
+  height: 2.5rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-left: 0.71rem;
+  width: 90%;
+}
+
+.delete-btn-n {
+  background-color: red;
+  color: white;
+  border: 2px solid black;
+  height: 2.5rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  width: 81%;
+}
+
+.delete-btn-y:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
+.delete-btn-n:hover {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+}
