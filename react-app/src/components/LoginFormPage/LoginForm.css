@@ -95,7 +95,7 @@
 
 #login-password-input {
   position: absolute;
-  top: 60%;
+  top: 55%;
   right: 10px; /* Adjust the right spacing as needed */
   transform: translateY(-50%);
   background: transparent;
