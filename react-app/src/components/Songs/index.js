@@ -5,7 +5,6 @@ function AllSongs () {
   return (
     <div id="song-cont">
       <CoverArt />
-      {/* <Song Play/> */}
     </div>
   )
 }

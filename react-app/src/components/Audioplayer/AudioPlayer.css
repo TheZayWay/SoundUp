@@ -1,0 +1,34 @@
+#audioplayer-cont {
+  background-color: #272626;
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  gap: 1.1rem;
+  position: absolute;
+  padding-left: 1rem;
+  bottom: 0;
+  overflow: hidden;
+  position: fixed;
+}
+
+.audio-prevfor-btn {
+  border: none;
+  font-size: 1rem;
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+}
+
+.audio-prevfor-btn:hover {
+  cursor: pointer;
+}
+
+#audio-play-btn {
+  border: none;
+  font-size: 2rem;
+  background-color: transparent;
+  color: rgb(255, 255, 255);
+}
+
+#audio-play-btn {
+  cursor: pointer;
+}

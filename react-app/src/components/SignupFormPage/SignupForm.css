@@ -66,9 +66,8 @@ body {
 }
 
 #signup-password-input {
-  position: absolute;
   margin-top: 25px;
-  right: 39%;
+  margin-left: -2rem;
   transform: translateY(-50%);
   background: transparent;
   border: none;
