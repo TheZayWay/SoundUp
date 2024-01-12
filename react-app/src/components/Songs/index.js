@@ -4,10 +4,9 @@ import './Song.css'
 function AllSongs () {
   return (
     <>
-      <div>
         <CoverArt />
         {/* <Song Play/> */}
-      </div>
+      
     </>
   )
 }

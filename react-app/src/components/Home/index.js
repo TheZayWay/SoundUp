@@ -1,5 +1,6 @@
 import Navigation from "../Navigation";
 import AllSongs from "../Songs";
+import Sidebar from "../Sidebar";
 import './Home.css'
 
 export default function HomePage () {   
@@ -7,12 +8,13 @@ export default function HomePage () {
     <>
       <Navigation />
       <hr id="home-hr-top"></hr>
-      <div id="home-content">
-        <div id="vertical-line-cont">
-          <hr id="home-hr-side"></hr>
-        </div>
-        <AllSongs />
+      <div id="home-divider">
+        <Sidebar />
+        {/* <hr id="vertical-line"></hr>
+        <AllSongs /> */}
       </div>
+      
+      
     </>    
     )
 };

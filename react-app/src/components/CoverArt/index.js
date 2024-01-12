@@ -18,21 +18,20 @@ function CoverArt () {
     <>
       {songsArr ? songsArr.map((song,idx) => { 
         return (
-          <div>
+          <div id="cover-art-image-cont">
             <img className='cover-art-image' key={idx} src={song.imagepath} alt=''></img>
-            <div id="modal-crud-cont">
+            <div id="crud-modal-cont">
               <OpenModalButton 
                 buttonText={"Update"}
                 modalComponent={<UpdateSong song={song}/>}
-                className="upload-modal"
               />
               <OpenModalButton 
                 buttonText={"Delete"}
                 modalComponent={<DeleteSong song={song}/>}
-                className="upload-modal"
               />
-            </div>            
-          </div>
+            </div>
+            
+          </div>         
         )}) : ""}
     </>
   )

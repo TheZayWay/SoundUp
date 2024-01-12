@@ -6,16 +6,24 @@ body {
   width: auto;
   border: none;
   border-top: 1px solid rgb(84, 84, 84);
-  margin-bottom: 3rem;
+  /* margin-bottom: 3rem; */
 }
 
-#home-content {
+#home-divider {
+  display: flex;
+}
+
+/* #vertical-line {
+  margin-left: 10rem;
+  top: 10%  ;
+} */
+/* #home-content {
   display: flex;
 }
 
 
 #vertical-line-cont {
-  height: 30rem; /* 100% of the viewport height */
+  height: 30rem; 
   display: flex;
   align-items: center;
 }
@@ -27,5 +35,6 @@ body {
   height: 100%;
   border-right: 1px solid rgb(84, 84, 84);
   border-left: none;
+  position: fixed;
   
-}
+} */
