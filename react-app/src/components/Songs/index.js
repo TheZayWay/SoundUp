@@ -3,11 +3,10 @@ import './Song.css'
 
 function AllSongs () {
   return (
-    <>
-        <CoverArt />
-        {/* <Song Play/> */}
-      
-    </>
+    <div id="song-cont">
+      <CoverArt />
+      {/* <Song Play/> */}
+    </div>
   )
 }
 

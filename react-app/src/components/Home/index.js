@@ -10,11 +10,8 @@ export default function HomePage () {
       <hr id="home-hr-top"></hr>
       <div id="home-divider">
         <Sidebar />
-        {/* <hr id="vertical-line"></hr>
-        <AllSongs /> */}
+        <AllSongs /> 
       </div>
-      
-      
     </>    
     )
 };

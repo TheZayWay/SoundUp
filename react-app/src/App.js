@@ -5,7 +5,6 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import HomePage from "./components/Home";
 import { authenticate } from "./store/session";
-import UpdateSong from "./components/Update";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,9 +17,6 @@ function App() {
     <>
       {isLoaded && (
         <Switch>
-          <Route path="/update">
-            <UpdateSong />
-          </Route>
           <Route path="/login" >
             <LoginFormPage />
           </Route>

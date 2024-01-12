@@ -1,0 +1,6 @@
+#song-cont {
+  border: 1px solid transparent;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}

@@ -6,35 +6,9 @@ body {
   width: auto;
   border: none;
   border-top: 1px solid rgb(84, 84, 84);
-  /* margin-bottom: 3rem; */
+  margin-bottom: 0rem;
 }
 
 #home-divider {
   display: flex;
 }
-
-/* #vertical-line {
-  margin-left: 10rem;
-  top: 10%  ;
-} */
-/* #home-content {
-  display: flex;
-}
-
-
-#vertical-line-cont {
-  height: 30rem; 
-  display: flex;
-  align-items: center;
-}
-
-#home-hr-side {
-  display: inline;
-  margin-left: 15rem;
-  margin-top: -5.4rem;
-  height: 100%;
-  border-right: 1px solid rgb(84, 84, 84);
-  border-left: none;
-  position: fixed;
-  
-} */

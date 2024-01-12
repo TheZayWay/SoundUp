@@ -30,7 +30,6 @@ function CoverArt () {
                 modalComponent={<DeleteSong song={song}/>}
               />
             </div>
-            
           </div>         
         )}) : ""}
     </>
