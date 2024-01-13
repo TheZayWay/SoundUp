@@ -28,14 +28,14 @@
 
 #homepage-right-side {
   position: absolute;
-  right: 0;
+  right: 0%;
   display: flex;
   gap: 5px;
 }
 
 #navigation-logged-in-leftside {
   position: absolute;
-  right: 0;
+  right: 0%;
 }
 
 #homepage-logout-btn {

@@ -22,13 +22,10 @@
   cursor: pointer;
 }
 
-#audio-play-btn {
+#audio-playpause-btn {
   border: none;
   font-size: 2rem;
   background-color: transparent;
   color: rgb(255, 255, 255);
 }
 
-#audio-play-btn {
-  cursor: pointer;
-}

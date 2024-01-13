@@ -29,5 +29,12 @@
   justify-content: center;
   border: none;
   width: 2rem;
+  margin-top: -50px;
 }
 
+#song-cont {
+  border: 1px solid transparent;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
