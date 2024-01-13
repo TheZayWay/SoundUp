@@ -1,31 +1,88 @@
+/* REACT PLAYER*/
+
+.react-h5-audio-player-container,
+.rhap_container {
+  border: 1px solid gray;
+}
+
+/* Controls */
+.react-h5-audio-player-container,
+.rhap_main-controls {
+  /* box-sizing: content-box !important;
+  border: 1px solid gray; */
+  color: white;
+}
+
+/* Progress */
+
+.react-h5-audio-player-container,
+.rhap_progress-filled {
+  background: red; 
+}
+.react-h5-audio-player-container,
+.rhap_progress-indicator {
+  background: white;
+}
+
+/* Time */
+.react-h5-audio-player-container,
+.rhap_time {
+  color: #aaa;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: Roboto,Noto Naskh Arabic UI,Arial,sans-serif;
+}
+
+/* Volume */
+
+.react-h5-audio-player-container,
+.rhap_volume-indicator {
+  background: rgb(255, 255, 255);
+}
+.react-h5-audio-player-container,
+.rhap_volume-bar {
+  background-color: #dddddd24;
+}
+.react-h5-audio-player-container,
+.rhap_volume-bar-filled {
+  background: red;
+}
+
+/* Other classes */
+
 #audioplayer-cont {
   background-color: #272626;
   width: 100%;
-  height: 4rem;
+  height: 5rem;
   display: flex;
   gap: 1.1rem;
   position: absolute;
-  padding-left: 1rem;
   bottom: 0;
   overflow: hidden;
   position: fixed;
 }
 
-.audio-prevfor-btn {
-  border: none;
-  font-size: 1rem;
-  background-color: transparent;
-  color: rgb(255, 255, 255);
+#audio-content {
+  width: 30%;
+  border: 1px solid gray;
+  display: flex;
+  align-items: center;
 }
 
-.audio-prevfor-btn:hover {
-  cursor: pointer;
+#song-image {
+  height: 3rem;
+  border-radius: 5px;
+  margin-left: 2rem;
 }
 
-#audio-playpause-btn {
-  border: none;
-  font-size: 2rem;
-  background-color: transparent;
-  color: rgb(255, 255, 255);
+#song-info {
+  font-weight: lighter;
+  margin-left: 1rem;
 }
+
+
+
+
+
+
 

@@ -1,7 +1,7 @@
 #sidebar-cont {
   border-right: 1px solid gray;
   width: 15rem;
-  height: 80vh;
+  height: 100vh;
   padding-left: 1rem;
   word-wrap: break-word;
 }

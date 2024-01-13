@@ -11,8 +11,8 @@ import './Home.css'
 export default function HomePage () { 
   const songsArr = useSelector((state) => state?.song?.allSongs);
   const songsData = [];
+  const allSongs = [];
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getAllSongsThunk())
   }, [dispatch])
@@ -27,9 +27,10 @@ export default function HomePage () {
             <Sidebar />
             <CoverArt />
           </div>
-          {songsArr ? songsArr.map((song,idx) => songsData.push(song.filepath)) : ""}
+          {songsArr ? songsArr.map((song,idx) => {songsData.push(song.filepath); allSongs.push(song); return null}) : ""}
           <AudioPlayer 
             songsData={songsData}
+            allSongs={allSongs}
           />
         </> ) : 
         <RotatingLines

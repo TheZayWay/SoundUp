@@ -3,6 +3,7 @@
 #all-navi-cont {
   display: flex;
   align-items: center;
+  width: auto;
 }
 
 .logo {
@@ -24,18 +25,17 @@
   height: 3rem;
   display: flex;
   align-items: center;
+  width: auto;
 }
 
 #homepage-right-side {
-  position: absolute;
-  right: 0%;
   display: flex;
   gap: 5px;
+  margin-left: 55rem;
 }
 
 #navigation-logged-in-leftside {
-  position: absolute;
-  right: 0%;
+  margin-left: 55rem;
 }
 
 #homepage-logout-btn {
