@@ -2,7 +2,7 @@
 
 .react-h5-audio-player-container,
 .rhap_container {
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
 }
 
 /* Controls */
@@ -39,19 +39,17 @@
 .rhap_volume-indicator {
   background: rgb(255, 255, 255);
 }
-.react-h5-audio-player-container,
-.rhap_volume-bar {
-  background-color: #dddddd24;
-}
-.react-h5-audio-player-container,
-.rhap_volume-bar-filled {
-  background: red;
+
+.rhap_button-clear {
+  color: white;
+  background-color: transparent;
 }
 
 /* Other classes */
-
+/* Music Player */
 #audioplayer-cont {
-  background-color: #272626;
+  /* background-color: #272626; */
+  background-color: rgb(24, 23, 23);
   width: 100%;
   height: 5rem;
   display: flex;
@@ -64,7 +62,7 @@
 
 #audio-content {
   width: 30%;
-  border: 1px solid gray;
+  /* border: 1px solid gray; */
   display: flex;
   align-items: center;
 }
@@ -80,9 +78,23 @@
   margin-left: 1rem;
 }
 
+.prev-btn {
+  margin-bottom: 0.25rem;
+}
+.next-btn {
+  margin-bottom: 0.25rem;
+  margin-left: -0.5rem;
+}
 
+/* Left Side */
+#song-title {
+  font-size: 0.85rem;
+}
 
-
+#song-artist {
+  color: gray;
+  font-size: 0.7rem;
+}
 
 
 
