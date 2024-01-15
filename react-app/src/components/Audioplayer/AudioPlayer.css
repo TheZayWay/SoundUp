@@ -1,9 +1,9 @@
 /* REACT PLAYER*/
 
-.react-h5-audio-player-container,
+/* .react-h5-audio-player-container,
 .rhap_container {
-  /* border: 1px solid gray; */
-}
+  border: 1px solid #aaaaaa6d;
+} */
 
 /* Controls */
 .react-h5-audio-player-container,
@@ -14,13 +14,31 @@
 }
 
 /* Progress */
+.react-h5-audio-player-container,
+.rhap_progress-section {
+  margin-top: -0.5rem;
+}
+
+.react-h5-audio-player-container,
+.rhap_progress-bar  {
+  background: rgba(128, 128, 128, 0.259);
+}
 
 .react-h5-audio-player-container,
 .rhap_progress-filled {
   background: red; 
 }
+
 .react-h5-audio-player-container,
 .rhap_progress-indicator {
+  background: none;
+  opacity: 0; /* Initially hide the progress indicator */
+  transition: opacity 0.2s ease; /* Add a smooth transition effect */
+}
+
+.react-h5-audio-player-container,
+ .rhap_progress-indicator:hover {
+  opacity: 1; /* Show the progress indicator on hover */
   background: white;
 }
 
@@ -28,7 +46,7 @@
 .react-h5-audio-player-container,
 .rhap_time {
   color: #aaa;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 400;
   font-family: Roboto,Noto Naskh Arabic UI,Arial,sans-serif;
 }
@@ -49,7 +67,11 @@
 /* Music Player */
 #audioplayer-cont {
   /* background-color: #272626; */
-  background-color: rgb(24, 23, 23);
+  /* background-color: rgb(24, 23, 23); */
+  background-color: black;
+  border: 1px solid rgba(128, 128, 128, 0.46);
+  border-bottom: none;
+  border-left: none;
   width: 100%;
   height: 5rem;
   display: flex;

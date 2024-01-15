@@ -1,49 +1,34 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RotatingLines } from "react-loader-spinner"
 import { getAllSongsThunk } from "../../store/song";
 import Navigation from "../Navigation";
-import CoverArt from "../CoverArt";
 import Sidebar from "../Sidebar";
 import AudioPlayer from "../Audioplayer";
-import './Home.css'
+import { RotatingLines } from "react-loader-spinner";
 
-function HomePage () {
-  const dispatch = useDispatch();
-  const [currentSrc, setCurrentSrc] = useState(null);
+function Library () {
   const songsArr = useSelector((state) => state?.song?.allSongs);
   const songsData = [];
   const allSongs = [];
+  const dispatch = useDispatch();
   
-  const handleSrcChange = (src) => {
-    setCurrentSrc(src);
-  }; 
-
   useEffect(() => {
     dispatch(getAllSongsThunk())
   }, [dispatch]);
-  
+
   return (
-    <div id="homepage-cont">
-      {songsArr ? (
+    <div>
+      { songsArr ? (
         <>
           <Navigation />
           <hr id="home-hr-top"></hr>
-          <div id="home-divider">
-            <Sidebar />
-            <CoverArt 
-              songsData={songsData}
-              allSongs={allSongs}
-              onSrcChange={handleSrcChange}
-            />
-          </div>
+          <Sidebar />
           {songsArr ? songsArr.map((song,idx) => {songsData.push(song.filepath); allSongs.push(song); return null}) : ""}
           <AudioPlayer 
             songsData={songsData}
             allSongs={allSongs}
-            currentSrc={currentSrc}
           />
-        </> ) : 
+        </>) : 
         <RotatingLines
           visible={true}
           height="100"
@@ -56,8 +41,8 @@ function HomePage () {
           wrapperClass=""
         />
       }
-    </div>    
-  )
+    </div>
+  );
 };
 
-export default HomePage;
+export default Library;

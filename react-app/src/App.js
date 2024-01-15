@@ -5,6 +5,7 @@ import { authenticate } from "./store/session";
 import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import HomePage from "./components/Home";
+import Library from "./components/Library";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,6 +18,9 @@ function App() {
     <>
       {isLoaded && (
         <Switch>
+          <Route path="/library">
+            <Library />
+          </Route>
           <Route path="/login" >
             <LoginFormPage />
           </Route>

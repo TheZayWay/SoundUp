@@ -78,11 +78,13 @@ def upload_song():
           genre = form.data['genre'],
           image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
           file_path = file_path,
-          image_path = image_path
+          image_path = image_path,
+          user_id = current_user.id
       )     
       db.session.add(song)
       db.session.commit()
-      print(f"Added Song to database.")
+      print(f"Added {song.title} to database.")
+      print(f"{song.title} belongs to user{current_user.id}")
       return song.to_dict()
   else:
       print(f"Could not add Song to database.")
