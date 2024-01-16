@@ -44,26 +44,30 @@ function HomePage () {
           <hr id="home-hr-top"></hr>
           <div id="home-divider">
             <Sidebar />
-            <CoverArt 
+            <div id="song-cont">
+              <CoverArt 
+                songsData={songsData}
+                allSongs={allSongs}
+                onSrcChange={handleSrcChange}
+                isPlaying={isPlaying}
+                onPlayPause={handlePlayPause}
+                onIsClicked={handleClicked}
+                audioElem={audioElem}
+              />
+            </div>
+          </div> 
+          <div id="audioplayer-cont">
+            {songsArr ? songsArr.map((song) => {songsData.push(song.filepath); allSongs.push(song); return null}) : ""}
+            <AudioPlayer 
               songsData={songsData}
               allSongs={allSongs}
-              onSrcChange={handleSrcChange}
+              currentSrc={currentSrc}
               isPlaying={isPlaying}
               onPlayPause={handlePlayPause}
               onIsClicked={handleClicked}
               audioElem={audioElem}
             />
           </div>
-          {songsArr ? songsArr.map((song,idx) => {songsData.push(song.filepath); allSongs.push(song); return null}) : ""}
-          <AudioPlayer 
-            songsData={songsData}
-            allSongs={allSongs}
-            currentSrc={currentSrc}
-            isPlaying={isPlaying}
-            onPlayPause={handlePlayPause}
-            onIsClicked={handleClicked}
-            audioElem={audioElem}
-          />
         </> ) : 
         <RotatingLines
           visible={true}
@@ -78,7 +82,7 @@ function HomePage () {
         />
       }
     </div>    
-  )
+  );
 };
 
 export default HomePage;

@@ -1,0 +1,17 @@
+#musicheader-cont {
+  display: flex;
+  margin-left: 7.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  gap: 70px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: gray;
+}
+
+#musicheader-title,
+#musicheader-artist,
+#musicheader-genre {
+  display: flex;  
+  width: 200px;
+}

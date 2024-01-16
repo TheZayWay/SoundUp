@@ -27,7 +27,6 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
@@ -35,8 +34,6 @@ app.config['UPLOAD_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__fil
 app.config['IMAGE_FOLDER'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Images')
 app.config['ALLOWED_EXTENSIONS'] = {'mp3', 'wav', 'flac'}
 app.config['ALLOWED_IMAGES']  = {'png', 'jpeg', 'jpg'}
-
-
 
 
 # Boolean Checks If File Is Allowed
@@ -165,26 +162,6 @@ def delete_song(id):
     print(f"{filename} was succesfully deleted from uploads w/ image and DB")
     return f"{filename} was successfully deleted from uploads w/ image and DB."
 
-
-#Play Song 
-@app.route('/api/songs/play/uploads/<path:filename>', methods=['GET'])
-def play_song(filename):
-  """
-  App root is variable for os path till app
-  File path is the absolute path which is necessary 
-  for send_file or send_from_directory 
-  """
-  root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-  file_path = root + '/' + app.config['UPLOAD_FOLDER'] + '/' + filename
-  # return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-  return send_file(file_path, as_attachment=True)
-
-@app.route('/api/songs/audio_player', methods=['GET'])
-def audio_player():
-  root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-  file_path = root + '/' + app.config['UPLOAD_FOLDER']
-  file_names = os.listdir(file_path)
-  return render_template('audio_player.html', file_names=file_names)
 
 # BluePrints
 app.register_blueprint(user_routes, url_prefix='/api/users')

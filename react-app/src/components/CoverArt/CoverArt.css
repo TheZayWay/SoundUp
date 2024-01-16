@@ -1,23 +1,20 @@
-#song-cont {
-  border: 1px solid transparent;
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 2.2rem;
-  height: 100%;
-}
-
 #cover-art-image-cont {
   display: flex;
-  flex-direction: column;
-  margin-left: 2rem;
-  margin-top: 1rem;
-  height: 200px;
+  margin-left: 1.5rem;
+  border: 0.5px solid rgba(128, 128, 128, 0.332);
+  border-left: none;
+  border-right: none;
+  width: 92%;
+  align-items: center;
+}
+
+#image-btn-cont {
+
 }
 
 .cover-art-image {
-  height: 150px;
-  width: 150px;
+  height: 50px;
+  width: 50px;
   border: none;
   border-radius: 2px;
 }
@@ -26,22 +23,24 @@
   cursor: pointer;
 }
 
-/* #playbtn {
-  height: 2.5rem;
-  width: 2.5rem;
-  margin-top: -3.7rem;
-  margin-left: 5.5rem;
-  z-index: 999;
-  border: none;
-  border-radius: 50%;
-  background-color: rgba(44, 43, 43, 0.608);
+#song-information-cont {
+  display: flex;
+  gap: 20px;
+  align-items: baseline; /* Adjust alignment as needed */
+  
 }
 
-#playbtn:hover {
-  cursor: pointer;
-  transform: scale(1.2);
-  background-color: black;
-} */
+#cover-song-title,
+#cover-song-artist,
+#cover-song-genre {
+  display: flex;
+  margin-left: 3rem;
+  width: 200px;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  font-weight: 300;
+}
+
 
 
 

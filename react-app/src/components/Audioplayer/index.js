@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState   } from "react";
 import { IoMdPlay } from "react-icons/io";
 import { IoPlaySkipBackSharp } from "react-icons/io5";
 import { IoPlaySkipForwardSharp } from "react-icons/io5";
@@ -13,11 +13,11 @@ import "./AudioPlayer.css";
 function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, onIsClicked, audioElem }) {  
   
   const [currentSongIdx, setCurrentSongIdx] = useState(0);
-  const currentSongIndex = allSongs.findIndex(song => song.filepath === currentSrc);
-  const nextIndex = (currentSongIndex + 1) % allSongs.length;
-  const prevIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
-  const nextSrc = allSongs[nextIndex].filepath;
-  const prevSrc = allSongs[prevIndex].filepath;
+  // const currentSongIndex = allSongs.findIndex(song => song.filepath === currentSrc);
+  // const nextIndex = (currentSongIndex + 1) % allSongs.length;
+  // const prevIndex = (currentSongIndex - 1 + allSongs.length) % allSongs.length;
+  // const nextSrc = allSongs[nextIndex].filepath;
+  // const prevSrc = allSongs[prevIndex].filepath;
   let songTitle;
   let songArtist;
   let imageSrc;
@@ -38,21 +38,21 @@ function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, 
     };
   };
 
-  const playNextSong = () => {
-    if (currentSrc) {
-      const newCurrentSrc = nextSrc;
-      setCurrentSongIdx(nextIndex);
-      audioElem.current.audio.current.src = newCurrentSrc;
-    }
-  };
+  // const playNextSong = () => {
+  //   if (currentSrc) {
+  //     const newCurrentSrc = nextSrc;
+  //     setCurrentSongIdx(nextIndex);
+  //     audioElem.current.audio.current.src = newCurrentSrc;
+  //   }
+  // };
 
-  const playPrevSong = () => {
-    if (currentSrc) {
-      const newCurrentSrc = prevSrc;
-      setCurrentSongIdx(newCurrentSrc);
-      audioElem.current.audio.current.src = newCurrentSrc;
-    }
-  };
+  // const playPrevSong = () => {
+  //   if (currentSrc) {
+  //     const newCurrentSrc = prevSrc;
+  //     setCurrentSongIdx(newCurrentSrc);
+  //     audioElem.current.audio.current.src = newCurrentSrc;
+  //   }
+  // };
 
   allSongs.forEach((song) => {
     if (currentSrc === song.filepath) {

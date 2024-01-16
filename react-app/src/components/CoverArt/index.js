@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSongsThunk } from '../../store/song';
+import MusicHeader from '../MusicHeader';
 import { IoPauseSharp } from "react-icons/io5";
 import { IoMdPlay } from "react-icons/io";
 // import UpdateSong from '../Update';
@@ -8,7 +9,7 @@ import { IoMdPlay } from "react-icons/io";
 // import OpenModalButton from '../OpenModalButton';
 import './CoverArt.css';
 
-function CoverArt ({songsData, allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, audioElem}) {
+function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, audioElem}) {
   const dispatch = useDispatch();
   const songsArr = useSelector((state) => state?.song?.allSongs);
   const [showPlayButton, setShowPlayButton] = useState(false);
@@ -53,31 +54,40 @@ function CoverArt ({songsData, allSongs, onSrcChange, isPlaying, onPlayPause, on
 
   return (
     <div id="song-cont">
-    {songsArr ? songsArr.map((song,idx) => { 
-      return (
-        <div onMouseLeave={handleHoverLeaveImage} id="cover-art-image-cont">
-          <img 
-            className="cover-art-image"
-            key={idx} 
-            src={song.imagepath} 
-            alt=""
-            onMouseEnter={() => handleHoverOverImage(idx)}
-          ></img>
+      <MusicHeader />
+      {songsArr ? songsArr.map((song,idx) => { 
+        return (
+          <div onMouseLeave={handleHoverLeaveImage} id="cover-art-image-cont">
+            <div id="image-btn-cont">
+              <img 
+                className="cover-art-image"
+                key={idx} 
+                src={song.imagepath} 
+                alt=""
+                onMouseEnter={() => handleHoverOverImage(idx)}
+              ></img>
+              {showPlayButton && !isPlaying && imageIndex === idx ? <button id="playbtn" onClick={() => handlePlayClicked(idx)}>
+                <IoMdPlay />
+              </button> : "" }
+              {showPlayButton && isPlaying && imageIndex === idx ? <button id="pausebtn" onClick={() => handlePauseClicked(idx)}>
+                <IoPauseSharp />
+              </button> : ""}
+            </div>
+            <div id="song-information-cont">
+              <div id="cover-song-title">{song.title}</div>
+              <div id="cover-song-artist">{song.artist}</div>
+              <div id="cover-song-genre">{song.genre}</div>
+            </div>
+          </div>       
+      )}) : ""}
+    </div>
+  );
+};
 
-          {showPlayButton && !isPlaying && imageIndex === idx ? (
-            <button id="playbtn" onClick={() => handlePlayClicked(idx)}>
-              <IoMdPlay />
-            </button>            
-          ): "" }
+export default CoverArt;
 
-          {showPlayButton && isPlaying && imageIndex === idx ? 
-            <button id="pausebtn" onClick={() => handlePauseClicked(idx)}>
-              <IoPauseSharp />
-            </button>  
-            : ""
-        }
 
-          {/* <div id="crud-modal-cont">
+{/* <div id="crud-modal-cont">
             <OpenModalButton 
               buttonText={"Update"}
               modalComponent={<UpdateSong song={song}/>}
@@ -87,15 +97,6 @@ function CoverArt ({songsData, allSongs, onSrcChange, isPlaying, onPlayPause, on
               modalComponent={<DeleteSong song={song}/>}
             />
           </div> */}
-        </div>       
-    )}) : ""}
-    </div>
-  );
-};
 
-export default CoverArt;
-// {isPlaying ? (
-//   <svg stroke="currentColor" fill="" strokeWidth="2" viewBox="0 0 24 20" strokeLinecap="round" strokeLinejoin="round" height="1.6em" width="1.6em" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" strokeWidth="0" fill="white"></path></svg>
-// ) : (
-//   <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM224 192V320c0 17.7-14.3 32-32 32s-32-14.3-32-32V192c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0V320c0 17.7-14.3 32-32 32s-32-14.3-32-32V192c0-17.7 14.3-32 32-32s32 14.3 32 32z"/></svg>
-// )}
+
+
