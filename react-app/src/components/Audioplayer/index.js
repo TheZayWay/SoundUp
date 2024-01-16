@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { IoMdPlay } from "react-icons/io";
 import { IoPlaySkipBackSharp } from "react-icons/io5";
 import { IoPlaySkipForwardSharp } from "react-icons/io5";
@@ -10,8 +10,8 @@ import MyAudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import "./AudioPlayer.css";
 
-function AudioPlayer ({songsData, allSongs, currentSrc}) {  
-  const audioElem = useRef(null);
+function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, onIsClicked, audioElem }) {  
+  
   const [currentSongIdx, setCurrentSongIdx] = useState(0);
   const currentSongIndex = allSongs.findIndex(song => song.filepath === currentSrc);
   const nextIndex = (currentSongIndex + 1) % allSongs.length;
@@ -22,17 +22,36 @@ function AudioPlayer ({songsData, allSongs, currentSrc}) {
   let songArtist;
   let imageSrc;
 
+  const handleOnPlay = () => {
+    if (!isPlaying && currentSrc) {
+      onPlayPause();
+      onIsClicked();
+      audioElem.current.audio.current.play();
+    };
+  };
+  
+  const handleOnPause = () => {
+    if (isPlaying && currentSrc) {
+      onPlayPause();
+      onIsClicked();
+      audioElem.current.audio.current.pause();
+    };
+  };
 
   const playNextSong = () => {
-    const newCurrentSrc = nextSrc;
-    setCurrentSongIdx(nextIndex);
-    audioElem.current.audio.current.src = newCurrentSrc;
+    if (currentSrc) {
+      const newCurrentSrc = nextSrc;
+      setCurrentSongIdx(nextIndex);
+      audioElem.current.audio.current.src = newCurrentSrc;
+    }
   };
 
   const playPrevSong = () => {
-    const newCurrentSrc = prevSrc;
-    setCurrentSongIdx(newCurrentSrc);
-    audioElem.current.audio.current.src = newCurrentSrc;
+    if (currentSrc) {
+      const newCurrentSrc = prevSrc;
+      setCurrentSongIdx(newCurrentSrc);
+      audioElem.current.audio.current.src = newCurrentSrc;
+    }
   };
 
   allSongs.forEach((song) => {
@@ -46,8 +65,8 @@ function AudioPlayer ({songsData, allSongs, currentSrc}) {
   const customIcons = {
     play: <IoMdPlay size={32} color="rgb(255,255,255)" />,
     pause: <IoPauseSharp size={32} color="rgb(255,255,255" />,
-    previous: <IoPlaySkipBackSharp size={22} color="rgb(255,255,255" className="prev-btn" onClick={playPrevSong} />, 
-    next: <IoPlaySkipForwardSharp size={22} color="rgb(255,255,255" className="next-btn" onClick={playNextSong} />, 
+    previous: <IoPlaySkipBackSharp size={22} color="rgb(255,255,255" className="prev-btn" />, 
+    next: <IoPlaySkipForwardSharp size={22} color="rgb(255,255,255" className="next-btn" />, 
     loop: <ImLoop size={20} color="rgb(255,255,255)"/>,
     loopOff: <ImLoop size={20} color="#aaaaaa6d"/>,
     volume: <IoVolumeMediumSharp size={25}/>,
@@ -58,7 +77,7 @@ function AudioPlayer ({songsData, allSongs, currentSrc}) {
     backgroundColor: 'transparent',
     width: '500px', 
   };
- console.log(currentSrc)
+
   return ( 
     <>
       <div id="audioplayer-cont">
@@ -74,13 +93,18 @@ function AudioPlayer ({songsData, allSongs, currentSrc}) {
             <MyAudioPlayer 
               src={currentSrc}
               ref={audioElem}
-              onEnded={playNextSong}
+              // onEnded={playNextSong}
               customIcons={customIcons}
               showSkipControls={true} 
               showJumpControls={false}
               showDownloadProgress={false}
               layout="stacked-reverse" 
               style={playerStyles}
+              autoPlay={currentSrc} 
+              onPlay={handleOnPlay}
+              onPause={handleOnPause}
+              // onClickPrevious={playPrevSong}
+              // onClickNext={playNextSong}
             />
           )}
         </div>
@@ -90,3 +114,5 @@ function AudioPlayer ({songsData, allSongs, currentSrc}) {
 };
 
 export default AudioPlayer;
+
+

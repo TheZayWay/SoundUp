@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RotatingLines } from "react-loader-spinner"
 import { getAllSongsThunk } from "../../store/song";
@@ -9,15 +9,28 @@ import AudioPlayer from "../Audioplayer";
 import './Home.css'
 
 function HomePage () {
+  const audioElem = useRef(null);
   const dispatch = useDispatch();
   const [currentSrc, setCurrentSrc] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const songsArr = useSelector((state) => state?.song?.allSongs);
   const songsData = [];
   const allSongs = [];
   
   const handleSrcChange = (src) => {
-    setCurrentSrc(src);
+    if (src) {
+      setCurrentSrc(src)
+    }
   }; 
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying)
+  };
+
+  const handleClicked = () => {
+    setIsClicked(true)
+  };
 
   useEffect(() => {
     dispatch(getAllSongsThunk())
@@ -35,6 +48,10 @@ function HomePage () {
               songsData={songsData}
               allSongs={allSongs}
               onSrcChange={handleSrcChange}
+              isPlaying={isPlaying}
+              onPlayPause={handlePlayPause}
+              onIsClicked={handleClicked}
+              audioElem={audioElem}
             />
           </div>
           {songsArr ? songsArr.map((song,idx) => {songsData.push(song.filepath); allSongs.push(song); return null}) : ""}
@@ -42,6 +59,10 @@ function HomePage () {
             songsData={songsData}
             allSongs={allSongs}
             currentSrc={currentSrc}
+            isPlaying={isPlaying}
+            onPlayPause={handlePlayPause}
+            onIsClicked={handleClicked}
+            audioElem={audioElem}
           />
         </> ) : 
         <RotatingLines
