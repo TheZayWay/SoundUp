@@ -3,6 +3,8 @@
   width: 5rem;
   padding-left: 1rem;
   overflow-y: hidden;
+  position: fixed;
+  height: 30rem;
 }
 
 #playlist-cont,
