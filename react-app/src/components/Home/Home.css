@@ -21,6 +21,7 @@ body {
   padding-bottom: 6rem; 
   width: 100%;
   overflow-y: auto;
+  margin-left: 6rem;
 }
 
 #audioplayer-cont {
