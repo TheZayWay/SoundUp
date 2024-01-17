@@ -63,10 +63,10 @@ function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, 
   });
 
   const customIcons = {
-    play: <IoMdPlay size={32} color="rgb(255,255,255)" />,
-    pause: <IoPauseSharp size={32} color="rgb(255,255,255" />,
-    previous: <IoPlaySkipBackSharp size={22} color="rgb(255,255,255" className="prev-btn" />, 
-    next: <IoPlaySkipForwardSharp size={22} color="rgb(255,255,255" className="next-btn" />, 
+    play: <IoMdPlay size={32} color="rgb(255,255,255)" id="audioplay-btn"/>,
+    pause: <IoPauseSharp size={32} color="rgb(255,255,255" id="audiopause-btn"/>,
+    previous: <IoPlaySkipBackSharp size={22} id="prev-btn" />, 
+    next: <IoPlaySkipForwardSharp size={22} id="next-btn" />, 
     loop: <ImLoop size={20} color="rgb(255,255,255)"/>,
     loopOff: <ImLoop size={20} color="#aaaaaa6d"/>,
     volume: <IoVolumeMediumSharp size={25}/>,

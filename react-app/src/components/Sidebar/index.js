@@ -25,9 +25,9 @@ function Sidebar () {
         <Link id="favorite-btn" to="/" onClick={handleComingSoon}><MdFavoriteBorder /></Link>
         <span id="favorite-text">Favorites</span>
       </div>
-      <div id="tracks-cont">
-        <Link id="tracks-btn" to="/" onClick={handleComingSoon}><HiOutlineMusicNote /></Link>
-        <span id="tracks-text">Tracks</span>
+      <div id="playlist-cont">
+        <Link id="playlist-btn" to="/" onClick={handleComingSoon}><HiOutlineMusicNote /></Link>
+        <span id="playlist-text">Playlist</span>
       </div>
     </div>
   );

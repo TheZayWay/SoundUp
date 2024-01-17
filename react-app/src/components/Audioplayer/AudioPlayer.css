@@ -50,7 +50,12 @@
 
 .react-h5-audio-player-container,
 .rhap_volume-indicator {
-  background: rgb(255, 255, 255);
+  background: rgb(255, 0, 0);
+}
+
+.react-h5-audio-player-container,
+.rhap_volume-bar {
+  background: white;
 }
 
 .rhap_button-clear {
@@ -79,10 +84,15 @@
   margin-left: 1rem;
 }
 
-.prev-btn {
+#audiopause-btn:hover,
+#audioplay-btn:hover {
+  transform: scale(1.09);
+}
+
+#prev-btn {
   margin-bottom: 0.25rem;
 }
-.next-btn {
+#next-btn {
   margin-bottom: 0.25rem;
   margin-left: -0.5rem;
 }
@@ -96,6 +106,18 @@
   color: gray;
   font-size: 0.8rem;
 }
+
+#prev-btn,
+#next-btn {
+  color: white
+}
+
+#prev-btn:hover,
+#next-btn:hover {
+  color: rgba(255, 255, 255, 0.859)
+}
+
+
 
 
 

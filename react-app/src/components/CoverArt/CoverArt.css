@@ -1,7 +1,7 @@
 #cover-art-image-cont {
   display: flex;
-  margin-left: 1.5rem;
-  border: 0.5px solid rgba(128, 128, 128, 0.332);
+  margin-left: 2.5rem;
+  border: 0.5px solid #242424;
   border-left: none;
   border-right: none;
   width: 92%;
@@ -64,6 +64,7 @@
   
 }
 
+#cover-song-album,
 #cover-song-title,
 #cover-song-artist,
 #cover-song-genre {

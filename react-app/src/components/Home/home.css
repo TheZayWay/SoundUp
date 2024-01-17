@@ -3,33 +3,29 @@ body {
 }
 
 #homepage-cont {
-  height: 100%; 
+  height: fit-content;
   overflow-y: hidden;
-}
-
-#home-hr-top {
-  width: auto;
-  border: none;
-  border-top: 1px solid rgb(84, 84, 84);
-  margin-bottom: 0rem;
 }
 
 #home-divider {
   display: flex;
+  margin-top: 6.1rem;
 }
 
 #song-cont {
   border: 1px solid transparent;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  min-height: 100vh;
+  box-sizing: border-box; 
+  padding-bottom: 6rem; 
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #audioplayer-cont {
     background-color: black;
-    border: 1px solid rgba(128, 128, 128, 0.46);
+    border: 1px solid #242424;
     border-bottom: none;
     border-left: none;
     width: 100%;

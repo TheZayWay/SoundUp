@@ -41,7 +41,6 @@ function HomePage () {
       {songsArr ? (
         <>
           <Navigation />
-          <hr id="home-hr-top"></hr>
           <div id="home-divider">
             <Sidebar />
             <div id="song-cont">

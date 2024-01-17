@@ -53,7 +53,7 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
   };
 
   return (
-    <div id="song-cont">
+    <div>
       <MusicHeader />
       {songsArr ? songsArr.map((song,idx) => { 
         return (
@@ -78,6 +78,7 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
             <div id="song-information-cont">
               <div id="cover-song-title">{song.title}</div>
               <div id="cover-song-artist">{song.artist}</div>
+              <div id="cover-song-album">{song.album}</div>
               <div id="cover-song-genre">{song.genre}</div>
             </div>
           </div>       

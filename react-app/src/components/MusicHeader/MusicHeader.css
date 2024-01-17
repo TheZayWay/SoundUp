@@ -1,6 +1,6 @@
 #musicheader-cont {
   display: flex;
-  margin-left: 6.0rem;
+  margin-left: 6.9rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
   gap: 70px;
@@ -9,6 +9,7 @@
   color: gray;
 }
 
+#musicheader-album,
 #musicheader-title,
 #musicheader-artist,
 #musicheader-genre {

@@ -6,21 +6,19 @@ Completed:
   [x] Sync audio player with song onclick
   [x] Fix the play/pause 
   [x] Move button into image without affecting layout
-
+  [x] SideBar Component Visuals (Just Home and Library for now)
+  [x] Fix scrolling issue within music container
 Need to do:
   Frontend
   [ ] Fix skip/prev buttons
-  
   [ ] Add song length column
-  [ ] Fix scrolling issue within music container
   [ ] Popup for update delete modals
-  [ ] HomePage layout
-    [ ] SideBar Component Visuals (Just Home and Library for now)
+  [ ] HomePage layout  
   [ ] Library Page
 
   
   Backend
-  [ ] Store song length to DB 
+  [ ] Store song time to DB 
   [ ] Current users uploads route for library and update/delete their uploads
   
 

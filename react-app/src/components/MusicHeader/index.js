@@ -5,6 +5,7 @@ function MusicHeader () {
     <div id="musicheader-cont">
       <div id="musicheader-title">Title</div>
       <div id="musicheader-artist">Artist</div>
+      <div id="musicheader-album">Album</div>
       <div id="musicheader-genre">Genre</div>
     </div>
   );

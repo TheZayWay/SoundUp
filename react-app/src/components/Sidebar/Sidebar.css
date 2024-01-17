@@ -1,12 +1,11 @@
 #sidebar-cont {
-  border-right: 1px solid rgba(128, 128, 128, 0.575);
+  border-right: 1px solid #242424;
   width: 5rem;
-  /* height: 100vh; */
   padding-left: 1rem;
-  word-wrap: break-word;
+  overflow-y: hidden;
 }
 
-#tracks-cont,
+#playlist-cont,
 #favorite-cont,
 #library-cont,
 #gohome-cont {
@@ -21,7 +20,7 @@
   margin-bottom: 0.5rem;
 }
 
-#tracks-cont:hover,
+#playlist-cont:hover,
 #favorite-cont:hover,
 #library-cont:hover,
 #gohome-cont:hover {
@@ -32,7 +31,7 @@
   background-color: rgba(255, 255, 255, 0.106);
 }
 
-#tracks-btn,
+#playlist-btn,
 #favorite-btn,
 #library-btn,
 #gohome-btn {
@@ -40,7 +39,7 @@
   font-size: 25px;
 }
 
-#tracks-text,
+#playlist-text,
 #favorite-text,
 #library-text,
 #gohome-text {
