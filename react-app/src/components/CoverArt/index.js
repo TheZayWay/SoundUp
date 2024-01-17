@@ -29,9 +29,10 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
       onSrcChange(src);
       onPlayPause();
       onIsClicked();
-      audioElem.current.audio.current.addEventListener('loadeddata', () => {
-        audioElem.current.audio.current.play();
-      });
+      audioElem.current.audio.current.play();
+      // audioElem.current.audio.current.addEventListener('loadeddata', () => {
+        
+      // });
     };
   };
 
