@@ -1,0 +1,6 @@
+#options-music-cont {
+  display: flex;
+  /* gap: 3rem; */
+  justify-content: space-evenly;
+  height: 3rem;
+}

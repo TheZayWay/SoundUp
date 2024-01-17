@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSongsThunk } from '../../store/song';
+import Options from '../MusicOption';
 import MusicHeader from '../MusicHeader';
 import { IoPauseSharp } from "react-icons/io5";
 import { IoMdPlay } from "react-icons/io";
@@ -55,6 +56,7 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
 
   return (
     <div>
+      <Options />
       <MusicHeader />
       {songsArr ? songsArr.map((song,idx) => { 
         return (
