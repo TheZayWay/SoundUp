@@ -1,15 +1,34 @@
 import { Link } from "react-router-dom";
+import { MdHomeFilled } from "react-icons/md";
+import { MdLibraryMusic } from "react-icons/md";
+import { MdFavoriteBorder } from "react-icons/md";
+import { HiOutlineMusicNote } from "react-icons/hi";
 import "./Sidebar.css"
 
 function Sidebar () {
+  
+  const handleComingSoon = () => {
+    alert("Currently building...")
+  };
+
   return (
     <div id="sidebar-cont">
-      <p><Link to="/">Home</Link></p>
-      <p><Link to="/library">Library</Link></p>
-      <p>Albums</p>
-      <p>Playlists?</p>
-      <p>Likes?</p>
-      <p>Queue?</p>
+      <div id="gohome-cont">
+        <Link id="gohome-btn" to="/"><MdHomeFilled /></Link>
+        <span id="gohome-text">Home</span>
+      </div>
+      <div id="library-cont">
+        <Link id="library-btn" to="/library"><MdLibraryMusic /></Link>
+        <span id="library-text">Library</span>
+      </div>
+      <div id="favorite-cont">
+        <Link id="favorite-btn" to="/" onClick={handleComingSoon}><MdFavoriteBorder /></Link>
+        <span id="favorite-text">Favorites</span>
+      </div>
+      <div id="tracks-cont">
+        <Link id="tracks-btn" to="/" onClick={handleComingSoon}><HiOutlineMusicNote /></Link>
+        <span id="tracks-text">Tracks</span>
+      </div>
     </div>
   );
 };

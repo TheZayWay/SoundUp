@@ -1,7 +1,49 @@
 #sidebar-cont {
   border-right: 1px solid rgba(128, 128, 128, 0.575);
-  width: 15rem;
+  width: 5rem;
   /* height: 100vh; */
   padding-left: 1rem;
   word-wrap: break-word;
+}
+
+#tracks-cont,
+#favorite-cont,
+#library-cont,
+#gohome-cont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid transparent;
+  width: 3.3rem;
+  height: 4.2rem;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+#tracks-cont:hover,
+#favorite-cont:hover,
+#library-cont:hover,
+#gohome-cont:hover {
+  border: 1px solid transparent;
+  width: 3.3rem;
+  height: 4.2rem;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.106);
+}
+
+#tracks-btn,
+#favorite-btn,
+#library-btn,
+#gohome-btn {
+  color: white;
+  font-size: 25px;
+}
+
+#tracks-text,
+#favorite-text,
+#library-text,
+#gohome-text {
+  font-size: 10px;
+  font-weight: 500;
 }
