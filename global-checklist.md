@@ -5,11 +5,12 @@ Completed:
   [x] Playback and other audio controls
   [x] Sync audio player with song onclick
   [x] Fix the play/pause 
+  [x] Move button into image without affecting layout
 
 Need to do:
   Frontend
   [ ] Fix skip/prev buttons
-  [ ] Move button into image without affecting layout
+  
   [ ] Add song length column
   [ ] Fix scrolling issue within music container
   [ ] Popup for update delete modals

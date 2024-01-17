@@ -66,12 +66,14 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
                 alt=""
                 onMouseEnter={() => handleHoverOverImage(idx)}
               ></img>
-              {showPlayButton && !isPlaying && imageIndex === idx ? <button id="playbtn" onClick={() => handlePlayClicked(idx)}>
-                <IoMdPlay />
-              </button> : "" }
-              {showPlayButton && isPlaying && imageIndex === idx ? <button id="pausebtn" onClick={() => handlePauseClicked(idx)}>
-                <IoPauseSharp />
-              </button> : ""}
+              <div id="button-cont">
+                {showPlayButton && !isPlaying && imageIndex === idx ? <button id="playbtn" onClick={() => handlePlayClicked(idx)}>
+                  <IoMdPlay />
+                </button> : "" }
+                {showPlayButton && isPlaying && imageIndex === idx ? <button id="pausebtn" onClick={() => handlePauseClicked(idx)}>
+                  <IoPauseSharp />
+                </button> : ""}
+              </div>
             </div>
             <div id="song-information-cont">
               <div id="cover-song-title">{song.title}</div>

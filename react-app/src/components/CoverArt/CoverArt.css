@@ -5,21 +5,55 @@
   border-left: none;
   border-right: none;
   width: 92%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   align-items: center;
 }
 
 #image-btn-cont {
-
+  display: flex;
+  position: relative;
 }
 
 .cover-art-image {
-  height: 50px;
-  width: 50px;
+  height: 30px;
+  width: 30px;
   border: none;
   border-radius: 2px;
 }
 
 .cover-art-image:hover {
+  cursor: pointer;
+}
+
+.cover-art-image:hover + #button-cont {
+  display: flex;
+}
+
+#button-cont {
+  margin-left: -25px;
+  margin-top: 5px;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#pausebtn,
+#playbtn {
+  border-radius: 50%;
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+}
+
+#pausebtn:hover {
+  cursor: pointer;
+}
+
+#playbtn:hover {
   cursor: pointer;
 }
 
