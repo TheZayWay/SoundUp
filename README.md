@@ -21,7 +21,7 @@ Disclaimer: Not intended for commercial use or profiting from the artist's work.
 <details open>
   <summary>Features</summary>
   
-   [MVP Feature List](https://github.com/TheZayWay/TeeBay2/wiki/MVP-Feature-List)
+   [MVP Feature List](https://github.com/TheZayWay/SoundUp/wiki/MVP-Feature-List)
 </details>
 
 ## Development
