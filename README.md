@@ -26,7 +26,7 @@ Disclaimer: Not intended for commercial use or profiting from the artist's work.
 
 ## Development
 <details open>
-  <summary>Running TeeBay</summary>
+  <summary>Running SoundUp</summary>
   
    1. **Clone this repository (only this branch):**
 
