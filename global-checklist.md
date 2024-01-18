@@ -9,9 +9,9 @@ Completed:
   [x] SideBar Component Visuals (Just Home and Library for now)
   [x] Fix scrolling issue within music container
   [x] Fix skip/prev buttons
+  [x] Fix AWS Bucket
 Need to do:
   Frontend
-  [ ] Fix AWS Bucket
   [ ] Fix song info when prev/skipping
   [ ] Add song length column
   [ ] Popup for update delete modals

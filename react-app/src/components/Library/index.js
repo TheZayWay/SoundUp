@@ -17,7 +17,6 @@ function Library () {
   const userId = useSelector((state) => state?.session.user.id);
   const songsData = [];
   const allSongs = [];
- 
 
   const handleSrcChange = (src) => {
     if (src) {
@@ -41,7 +40,7 @@ function Library () {
     <div id="homepage-cont">
       {songsArr ? (
         <>
-        {songsArr ? songsArr.filter((song) => {if (song.user_id === userId) {songsData.push(song.filepath); allSongs.push(song)}}) : ""}
+        {songsArr ? songsArr.filter((song) => {if (song.user_id === userId) {songsData.push(song.filepath); allSongs.push(song);}}) : ""}
           <Navigation />
           <div id="home-divider">
             <Sidebar />
