@@ -13,11 +13,11 @@ def seed():
         undo_songs()
         undo_users()
     seed_users()
-    # seed_songs()
+    seed_songs()
 
 
 @seed_commands.command('undo')
 def undo():
     undo_songs()
-    # undo_users()
+    undo_users()
     

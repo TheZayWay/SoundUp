@@ -1,8 +1,11 @@
-from app.models import db
+from app.models import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
 class Song(db.Model):
     __tablename__ = 'songs'
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String, nullable=False)
@@ -12,7 +15,7 @@ class Song(db.Model):
     genre = db.Column(db.String(20), nullable=True)
     image = db.Column(db.String, nullable=True)
     uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
     file_path = db.Column(db.String, nullable=False)
     image_path = db.Column(db.String, nullable=True)
 
