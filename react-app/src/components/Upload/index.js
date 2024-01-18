@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal"
 import { uploadSongThunk, getAllSongsThunk } from "../../store/song";
+import { IoClose } from "react-icons/io5";
 import './Upload.css'
 
 function UploadSong () {
@@ -38,6 +39,9 @@ function UploadSong () {
   return (
     <div id="upload-form-cont">
       <form id="upload-form" onSubmit={handleSubmit} encType="multipart/form-data">
+        <button id="closebtn">
+          <IoClose />
+        </button>
         <h1>Upload song</h1>
         <div className="upload-divs">
           <span id="upload-inputs-title-song">Song</span>

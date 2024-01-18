@@ -1,6 +1,32 @@
 #options-music-cont {
   display: flex;
-  /* gap: 3rem; */
-  justify-content: space-evenly;
+  align-items: center;
   height: 3rem;
+  width: 99%;
+  margin-left: 10rem;
+}
+
+#musicoption-albums,
+#musicoption-songs,
+#musicoption-artist {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 200;
+  width: 4rem;
+  height: 2rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  margin-left: 10rem;
+}
+
+#musicoption-albums:hover,
+#musicoption-songs:hover,
+#musicoption-artist:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.147);
 }

@@ -1,4 +1,5 @@
 #upload-form-cont {
+  margin-top: 6rem;
   height: 32rem;
   width: 27rem;
 }
@@ -7,6 +8,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#closebtn {
+  background-color: transparent;
+  color: white;
+  border: none;
+  margin-right: 20rem;
+}
+
+#closebtn:hover {
+  cursor: pointer;
 }
 
 .upload-divs {

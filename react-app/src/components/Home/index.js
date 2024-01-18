@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RotatingLines } from "react-loader-spinner"
 import { getAllSongsThunk } from "../../store/song";
 import Navigation from "../Navigation";
 import CoverArt from "../CoverArt";
 import Sidebar from "../Sidebar";
 import AudioPlayer from "../Audioplayer";
+import { RotatingLines } from "react-loader-spinner";
 import './Home.css'
 
 function HomePage () {

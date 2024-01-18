@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getAllSongsThunk } from '../../store/song';
 import Options from '../MusicOption';
 import MusicHeader from '../MusicHeader';
@@ -8,14 +8,13 @@ import { IoMdPlay } from "react-icons/io";
 // import UpdateSong from '../Update';
 // import DeleteSong from '../Delete';
 // import OpenModalButton from '../OpenModalButton';
-import './CoverArt.css';
+import './LibraryCoverArt.css';
 
-function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, audioElem}) {
+function LibraryCoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, audioElem}) {
   const dispatch = useDispatch();
-  const songsArr = useSelector((state) => state?.song?.allSongs);
   const [showPlayButton, setShowPlayButton] = useState(false);
   const [imageIndex, setImageIndex] = useState(null);
-  
+
   useEffect(() => {
     dispatch(getAllSongsThunk())
   }, [dispatch]);
@@ -24,13 +23,14 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
     const src = allSongs[idx].filepath;
     if (isPlaying) {
       return;
-    }
+    };
 
     if (!isPlaying) {
       onSrcChange(src);
       onPlayPause();
       onIsClicked();
       audioElem.current.audio.current.play();
+      // audioElem.current.audio.current.addEventListener('loadeddata', () => { });
     };
   };
 
@@ -55,7 +55,7 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
     <div>
       <Options />
       <MusicHeader />
-      {songsArr ? songsArr.map((song,idx) => { 
+      {allSongs ? allSongs.map((song,idx) => { 
         return (
           <div onMouseLeave={handleHoverLeaveImage} id="cover-art-image-cont">
             <div id="image-btn-cont">
@@ -87,19 +87,4 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
   );
 };
 
-export default CoverArt;
-
-
-{/* <div id="crud-modal-cont">
-            <OpenModalButton 
-              buttonText={"Update"}
-              modalComponent={<UpdateSong song={song}/>}
-            />
-            <OpenModalButton 
-              buttonText={"Delete"}
-              modalComponent={<DeleteSong song={song}/>}
-            />
-          </div> */}
-
-
-
+export default LibraryCoverArt;
