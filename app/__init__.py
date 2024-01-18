@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user
 from werkzeug.utils import secure_filename
-from s3_helpers import upload_to_s3, delete_file_from_s3
+from .s3_helpers import upload_to_s3, delete_file_from_s3
 from .models import db, User, Song
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
