@@ -8,9 +8,11 @@ Completed:
   [x] Move button into image without affecting layout
   [x] SideBar Component Visuals (Just Home and Library for now)
   [x] Fix scrolling issue within music container
+  [x] Fix skip/prev buttons
 Need to do:
   Frontend
-  [ ] Fix skip/prev buttons
+  [ ] Fix AWS Bucket
+  [ ] Fix song info when prev/skipping
   [ ] Add song length column
   [ ] Popup for update delete modals
   [ ] HomePage layout  

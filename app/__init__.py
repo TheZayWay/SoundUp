@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user
 from werkzeug.utils import secure_filename
-from .s3_helpers import upload_to_s3, delete_file_from_s3
+from app.s3_helpers import upload_to_s3, delete_file_from_s3
 from .models import db, User, Song
 from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
@@ -46,8 +46,12 @@ def allowed_image(image):
 ### SONG ROUTES ###
 
 # Upload Song
-@app.route('/api/songs/upload', methods=['POST'])
+@app.route('/api/songs/upload', methods=['GET','POST'])
 def upload_song():
+  if request.method == 'GET':
+        form = UploadSongForm()
+        return render_template('upload_song.html', form=form)
+
   form = UploadSongForm()
   file = request.files['filename']
   image = request.files['image']
@@ -87,6 +91,8 @@ def upload_song():
       print(f"Could not add Song to database.")
       return jsonify({"error": "Internal Server Error"}), 500
     
+
+
 
 # Update Song
 @app.route('/api/songs/<int:id>/update', methods=['POST', 'PUT', 'GET'])
