@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getAllSongsThunk } from '../../store/song';
 import Options from '../MusicOption';
 import MusicHeader from '../MusicHeader';
 import { IoPauseSharp } from "react-icons/io5";
 import { IoMdPlay } from "react-icons/io";
-// import UpdateSong from '../Update';
-// import DeleteSong from '../Delete';
-// import OpenModalButton from '../OpenModalButton';
+import UpdateSong from '../Update';
+import DeleteSong from '../Delete';
+import OpenModalButton from '../OpenModalButton';
+import { BsThreeDotsVertical } from "react-icons/bs";
 import './LibraryCoverArt.css';
 
 function LibraryCoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, audioElem}) {
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state?.session?.user?.id);
   const [showPlayButton, setShowPlayButton] = useState(false);
   const [imageIndex, setImageIndex] = useState(null);
+  const [tripleDots, setTripleDots] = useState(false);
 
   useEffect(() => {
     dispatch(getAllSongsThunk())
@@ -51,6 +54,11 @@ function LibraryCoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsCl
     setShowPlayButton(false);
   };
 
+  const handleTripleDots = (idx) => {
+    setTripleDots((prev) => (prev && imageIndex === idx) ? false : true);
+    setImageIndex(idx);
+  };
+
   return (
     <div>
       <Options />
@@ -73,7 +81,22 @@ function LibraryCoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsCl
                 {showPlayButton && isPlaying && imageIndex === idx ? <button id="pausebtn" onClick={() => handlePauseClicked(idx)}>
                   <IoPauseSharp />
                 </button> : ""}
-              </div>
+                </div>
+                {userId === song.user_id ? (
+                  <div id="triple-dot-cont">
+                    <BsThreeDotsVertical onClick={() => {handleTripleDots(idx)}} id="threedots" />
+                    {tripleDots && imageIndex === idx ? <div id="crud-modal-cont">
+                      <OpenModalButton 
+                        buttonText={"Update"}
+                        modalComponent={<UpdateSong song={song} />}
+                      />
+                      <OpenModalButton 
+                        buttonText={"Delete"}
+                        modalComponent={<DeleteSong song={song}/>}
+                      />
+                    </div>  : ""}
+                  </div>)
+                : ""}  
             </div>
             <div id="song-information-cont">
               <div id="cover-song-title">{song.title}</div>

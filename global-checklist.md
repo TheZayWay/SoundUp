@@ -10,13 +10,17 @@ Completed:
   [x] Fix scrolling issue within music container
   [x] Fix skip/prev buttons
   [x] Fix AWS Bucket
+  [x] Popup for update delete modals
+  [x] Library Page
+  
 Need to do:
   Frontend
+  
   [ ] Fix song info when prev/skipping
   [ ] Add song length column
-  [ ] Popup for update delete modals
+  
   [ ] HomePage layout  
-  [ ] Library Page
+  
 
   
   Backend

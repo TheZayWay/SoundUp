@@ -57,6 +57,28 @@
   cursor: pointer;
 }
 
+#triple-dot-cont {
+  height: 1rem;
+  width: 0rem;
+  margin-left: 10px;
+  margin-right: -10px;
+  padding-top: 10px;
+}
+
+#threedots:hover {
+  cursor: pointer;
+  color: gray;
+  
+}
+
+#crud-modal-cont {
+  border: 1px solid white;
+  width: 5rem;
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid white;
+}
+
 #song-information-cont {
   display: flex;
   gap: 20px;

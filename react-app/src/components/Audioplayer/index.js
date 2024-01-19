@@ -17,14 +17,9 @@ function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, 
   let songTitle;
   let songArtist;
   let imageSrc;
+  let handleSkipCalled = false;
 
-  allSongs.forEach((song) => {
-    if (currentSrc === song.filepath) {
-      songTitle = song.title;
-      songArtist = song.artist;
-      imageSrc = song.imagepath;
-    }
-  });
+  
 
   const playNextSong = () => {
     if (currentSrc) {
@@ -49,16 +44,20 @@ function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, 
       let prevIdx = (prevIndex - 1 + allSongs.length) % allSongs.length;
 
       setPrevSongIdx(prevIdx);
+      songTitle = allSongs[prevIdx].title
       audioElem.current.audio.current.src = prevSrc;
       audioElem.current.audio.current.play(); 
-
+      
     }
   };
+
+  
   
   const handleOnPlay = () => {
     if (!isPlaying && currentSrc) {
       onPlayPause();
       onIsClicked();
+
       audioElem.current.audio.current.play();
     };
   };
@@ -72,12 +71,25 @@ function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, 
   };
 
   const handleSkip = () => {
-    playNextSong()
+    playNextSong();
+    handleSkipCalled = true;
   };
 
   const handleBack = () => {
     playPrevSong()
-  }
+  };
+
+  allSongs.forEach((song, idx) => {
+    if (currentSrc === song.filepath) {
+      songTitle = song.title;
+      songArtist = song.artist;
+      imageSrc = song.imagepath;
+      console.log(currentSrc)
+    }
+    if (handleSkipCalled) {
+      songTitle = allSongs[idx + 1].title
+    }
+  });
   
   const customIcons = {
     play: <IoMdPlay size={32} color="rgb(255,255,255)" id="audioplay-btn"/>,
