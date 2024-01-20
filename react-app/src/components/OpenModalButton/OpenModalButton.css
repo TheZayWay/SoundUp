@@ -1,12 +1,13 @@
 .open-modal-btn {
   border: none;
-  color: rgb(202, 201, 201);
+  color: gray;
   background-color: transparent;
   text-decoration: underline;
+  z-index: 999;
+  padding-left: 1.3rem;
 }
 
 .open-modal-btn:hover {
-  color: white;
   cursor: pointer;
   transform: scale(1.02);
 }

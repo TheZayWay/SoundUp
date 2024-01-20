@@ -1,15 +1,14 @@
-import { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllSongsThunk } from "../../store/song";
+import { useState, useRef } from "react";
+import { useSelector} from "react-redux";
 import Navigation from "../Navigation";
 import Sidebar from "../Sidebar";
 import LibraryCoverArt from "../LibraryCoverArt";
 import AudioPlayer from "../Audioplayer";
 import { RotatingLines } from "react-loader-spinner";
 
+
 function Library () {
   const audioElem = useRef(null);
-  const dispatch = useDispatch();
   const [currentSrc, setCurrentSrc] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -32,15 +31,11 @@ function Library () {
     setIsClicked(true)
   };
 
-  useEffect(() => {
-    dispatch(getAllSongsThunk())
-  }, [dispatch]);
-
   return (
     <div id="homepage-cont">
-      {songsArr ? (
+      {songsArr && userId ? (
         <>
-        {songsArr ? songsArr.filter((song) => {if (song.user_id === userId) {songsData.push(song.filepath); allSongs.push(song);}}) : ""}
+        {songsArr ? songsArr.filter((song) => {if (song.user_id === userId) {songsData.push(song.filepath); allSongs.push(song);} return null;}) : ""}
           <Navigation />
           <div id="home-divider">
             <Sidebar />
@@ -53,6 +48,7 @@ function Library () {
                 onPlayPause={handlePlayPause}
                 onIsClicked={handleClicked}
                 audioElem={audioElem}
+                isClicked={isClicked}
               />
             </div>
           </div>

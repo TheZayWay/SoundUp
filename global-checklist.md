@@ -10,18 +10,22 @@ Completed:
   [x] Fix scrolling issue within music container
   [x] Fix skip/prev buttons
   [x] Fix AWS Bucket
+  [x] Popup for update delete modals
+  [x] Library Page
+  [x] Fix song info when prev/skipping
+  [x] Current users uploads route for library and update/delete their uploads
+  
 Need to do:
   Frontend
-  [ ] Fix song info when prev/skipping
+  
   [ ] Add song length column
-  [ ] Popup for update delete modals
-  [ ] HomePage layout  
-  [ ] Library Page
-
+  [ ] HomePage layout 
+  [ ] Dont allow song duplicates 
   
   Backend
   [ ] Store song time to DB 
-  [ ] Current users uploads route for library and update/delete their uploads
+  [ ] Dont allow song duplicates 
+  
   
 
 Later (after being live):

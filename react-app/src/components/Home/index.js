@@ -47,11 +47,13 @@ function HomePage () {
               <CoverArt 
                 songsData={songsData}
                 allSongs={allSongs}
+                currentSrc={currentSrc}
                 onSrcChange={handleSrcChange}
                 isPlaying={isPlaying}
                 onPlayPause={handlePlayPause}
                 onIsClicked={handleClicked}
                 audioElem={audioElem}
+                isClicked={isClicked}
               />
             </div>
           </div> 
@@ -65,6 +67,7 @@ function HomePage () {
               onPlayPause={handlePlayPause}
               onIsClicked={handleClicked}
               audioElem={audioElem}
+              onSrcChange={handleSrcChange}
             />
           </div>
         </> ) : 
