@@ -19,10 +19,12 @@ Need to do:
   Frontend
   
   [ ] Add song length column
-  [ ] HomePage layout  
+  [ ] HomePage layout 
+  [ ] Dont allow song duplicates 
   
   Backend
   [ ] Store song time to DB 
+  [ ] Dont allow song duplicates 
   
   
 
