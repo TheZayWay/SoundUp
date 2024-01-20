@@ -15,10 +15,8 @@ Completed:
   
 Need to do:
   Frontend
-  
   [ ] Fix song info when prev/skipping
   [ ] Add song length column
-  
   [ ] HomePage layout  
   
 
