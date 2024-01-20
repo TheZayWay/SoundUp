@@ -11,7 +11,7 @@ import { IoMdPlay } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import './CoverArt.css';
 
-function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, audioElem}) {
+function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, audioElem, currentSrc}) {
   const dispatch = useDispatch();
   const songsArr = useSelector((state) => state?.song?.allSongs);
   const userId = useSelector((state) => state?.session?.user?.id);
@@ -24,13 +24,13 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
   }, [dispatch]);
 
   const handlePlayClicked = (idx) => {
-    const src = allSongs[idx].filepath;
+    currentSrc = allSongs[idx].filepath;
     if (isPlaying) {
       return;
     }
 
     if (!isPlaying) {
-      onSrcChange(src);
+      onSrcChange(currentSrc);
       onPlayPause();
       onIsClicked();
       audioElem.current.audio.current.play();
@@ -38,8 +38,8 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
   };
 
   const handlePauseClicked = (idx) => {
-    const src = allSongs[idx].filepath;
-    onSrcChange(src);
+    currentSrc = allSongs[idx].filepath;
+    onSrcChange(currentSrc);
     onPlayPause();
     onIsClicked();
     audioElem.current.audio.current.pause();
