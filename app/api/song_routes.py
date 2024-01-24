@@ -8,7 +8,7 @@ song_routes = Blueprint('songs', __name__)
 
 
 #Get All Songs
-@song_routes.route('/ok', methods=['GET'])
+@song_routes.route('/', methods=['GET'])
 def get_all_songs_no_order():
     songs = Song.query.all()
     all_songs = []
