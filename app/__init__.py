@@ -4,6 +4,8 @@ from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_login import LoginManager, current_user
 from werkzeug.utils import secure_filename
+from mutagen.mp3 import MP3
+import math
 from app.s3_helpers import upload_to_s3, delete_file_from_s3
 from .models import db, User, Song
 from .api.user_routes import user_routes
@@ -56,6 +58,9 @@ def upload_song():
   file = request.files['filename']
   image = request.files['image']
 
+  audio = MP3(file)
+  duration = f"{math.floor(audio.info.length // 60)}:{math.floor(audio.info.length % 60)}"
+
   if file:
       filename = file.filename
       upload_to_s3(file)
@@ -78,6 +83,7 @@ def upload_song():
           album = form.data['album'],
           genre = form.data['genre'],
           image = image_name or None if image_name == "<FileStorage: '' ('application/octet-stream')>" else image_name,
+          duration = duration,
           file_path = file_path,
           image_path = image_path,
           user_id = current_user.id
@@ -86,7 +92,7 @@ def upload_song():
       db.session.commit()
       print(f"Added {song.title} to database.")
       print(f"{song.title} belongs to user{current_user.id}")
-      return song.to_dict()
+      return song.to_dict() 
   else:
       print(f"Could not add Song to database.")
       return jsonify({"error": "Internal Server Error"}), 500

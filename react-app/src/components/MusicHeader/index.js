@@ -1,3 +1,4 @@
+import { IoTimeOutline } from "react-icons/io5";
 import './MusicHeader.css'
 
 function MusicHeader () {
@@ -7,6 +8,9 @@ function MusicHeader () {
       <div id="musicheader-artist">Artist</div>
       <div id="musicheader-album">Album</div>
       <div id="musicheader-genre">Genre</div>
+      <div id="musicheader-duration">
+        <IoTimeOutline size={18} />
+      </div>
     </div>
   );
 };

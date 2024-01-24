@@ -89,10 +89,11 @@
 #cover-song-album,
 #cover-song-title,
 #cover-song-artist,
-#cover-song-genre {
+#cover-song-genre,
+#cover-song-duration {
   display: flex;
   margin-left: 3rem;
-  width: 200px;
+  width: 10rem;
   color: rgb(255, 255, 255);
   font-size: 14px;
   font-weight: 300;
