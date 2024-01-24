@@ -103,7 +103,7 @@ function CoverArt ({allSongs, onSrcChange, isPlaying, onPlayPause, onIsClicked, 
               <div id="cover-song-artist">{song.artist}</div>
               <div id="cover-song-album">{song.album}</div>
               <div id="cover-song-genre">{song.genre}</div>
-              {/* <div id="cover-song-duration">{song.duration}</div> */}
+              <div id="cover-song-duration">{song.duration}</div>
             </div>
           </div>       
       )}) : ""}

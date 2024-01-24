@@ -20,7 +20,7 @@ const getAllUserSongs = (songs) => ({
 // })
 
 export const getAllSongsThunk = () => async (dispatch) => {
-  const response = await fetch("/api/songs", {
+  const response = await fetch("/api/songs/ok", {
     headers: {
       "Content-Type": "application/json"
     }
