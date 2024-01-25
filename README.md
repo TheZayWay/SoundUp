@@ -1,6 +1,6 @@
 # SoundUp
 
-<img width="1280" alt="Screen Shot 2024-01-17 at 7 12 29 PM" src="https://github.com/TheZayWay/SoundUp/assets/121142977/8504f502-38a1-4318-a34a-1c31f7575f9c">
+<img width="1280" alt="Screen Shot 2024-01-24 at 6 18 45 PM" src="https://github.com/TheZayWay/SoundUp/assets/121142977/7edd20e6-66f8-451b-9e60-c5d4452d2e09">
 
 
 ## Introduction
