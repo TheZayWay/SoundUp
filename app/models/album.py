@@ -7,8 +7,8 @@ class Album(db.Model):
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
     
-    id = db.Column()
-    name = db.Column()
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False)
     
 
     def to_dict(self):
