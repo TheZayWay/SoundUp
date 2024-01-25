@@ -14,12 +14,11 @@ Completed:
   [x] Library Page
   [x] Fix song info when prev/skipping
   [x] Current users uploads route for library and update/delete their uploads
+  [x] Add song length column
+  [x] HomePage layout 
   
 Need to do:
   Frontend
-  
-  [ ] Add song length column
-  [ ] HomePage layout 
   [ ] Dont allow song duplicates 
   
   Backend
