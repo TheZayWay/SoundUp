@@ -18,12 +18,12 @@ class Song(db.Model):
     uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
     duration = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
-    album_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("albums.id")))
+    # album_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("albums.id")))
     file_path = db.Column(db.String, nullable=False)
     image_path = db.Column(db.String, nullable=True)
 
     user = db.relationship("User", back_populates="songs")
-    albums= db.relationship("Album", back_populates="songs")
+    # albums= db.relationship("Album", back_populates="songs")
     #Public Attributes
     def to_dict(self):
         return {
