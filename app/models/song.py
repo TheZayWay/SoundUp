@@ -12,7 +12,7 @@ class Song(db.Model):
     filename = db.Column(db.String, nullable=False)
     title = db.Column(db.String(30), nullable=False)
     artist = db.Column(db.String(30), nullable=True)
-    album = db.Column(db.String(30), nullable=True)
+    album = db.Column(db.String(30), db.ForeignKey('albums.name'))
     genre = db.Column(db.String(20), nullable=True)
     image = db.Column(db.String, nullable=True)
     uploaded_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -22,7 +22,7 @@ class Song(db.Model):
     image_path = db.Column(db.String, nullable=True)
 
     user = db.relationship("User", back_populates="songs")
-
+    album_ = db.relationship("Album", back_populates="songs")
     #Public Attributes
     def to_dict(self):
         return {

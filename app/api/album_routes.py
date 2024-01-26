@@ -10,3 +10,6 @@ def get_all_albums():
   for album in albums:
     all_albums.append(album.to_dict())
   return all_albums, 200
+
+
+
