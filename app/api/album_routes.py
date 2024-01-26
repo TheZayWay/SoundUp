@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, session, request
-from app.models import Album, db
+from flask import Blueprint 
+from app.models.album import Album
+from app.models import db
 
 album_routes = Blueprint('album', __name__)
 
