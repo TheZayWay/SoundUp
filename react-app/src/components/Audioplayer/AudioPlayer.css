@@ -66,9 +66,9 @@
 /* Other classes */
 /* Music Player */
 
+
 #audio-content {
   width: 30%;
-  /* border: 1px solid gray; */
   display: flex;
   align-items: center;
 }

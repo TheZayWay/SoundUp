@@ -95,10 +95,13 @@ function LoginFormPage() {
             </div>
             <button id="login-btn" type="submit">Log In</button>
             <hr id="login-hr"></hr>
-            <span style={{fontSize: "0.9rem", color: "#6a6a6a", fontWeight: "bold"}}>
-              Don't have an account?
-              <Link id="login-to-signup" to="/signup">Sign up for SoundUp</Link>
-            </span>
+            <div id="under-login-hr">
+              <span style={{fontSize: "0.9rem", color: "#6a6a6a", fontWeight: "bold"}}>
+                Don't have an account?
+                <Link id="login-to-signup" to="/signup">Sign up for SoundUp</Link>
+              </span>
+            </div>
+            
           </form>
         </div>
       </div>

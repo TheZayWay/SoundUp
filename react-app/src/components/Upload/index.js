@@ -39,9 +39,9 @@ function UploadSong () {
   return (
     <div id="upload-form-cont">
       <form id="upload-form" onSubmit={handleSubmit} encType="multipart/form-data">
-        <button id="closebtn">
+        {/* <button id="closebtn">
           <IoClose />
-        </button>
+        </button> */}
         <h1>Upload song</h1>
         <div className="upload-divs">
           <span id="upload-inputs-title-song">Song</span>

@@ -81,7 +81,7 @@
 
 #song-information-cont {
   display: flex;
-  gap: 20px;
+  width: 100%;
   align-items: baseline; /* Adjust alignment as needed */
   
 }
@@ -93,7 +93,7 @@
 #cover-song-duration {
   display: flex;
   margin-left: 3rem;
-  width: 10rem;
+  width: 20%;
   color: rgb(255, 255, 255);
   font-size: 14px;
   font-weight: 300;

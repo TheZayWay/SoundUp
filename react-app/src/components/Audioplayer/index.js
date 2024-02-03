@@ -84,7 +84,7 @@ function AudioPlayer ({songsData, allSongs, currentSrc, isPlaying, onPlayPause, 
 
   const playerStyles = {
     backgroundColor: 'transparent',
-    width: '500px', 
+    width: '650px', 
   };
 
   return ( 
