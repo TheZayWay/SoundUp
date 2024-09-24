@@ -97,8 +97,6 @@ def upload_song():
   else:
       print(f"Could not add Song to database.")
       return jsonify({"error": "Internal Server Error"}), 500
-    
-
 
 
 # Update Song

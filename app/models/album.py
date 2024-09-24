@@ -9,7 +9,7 @@
 #     id = db.Column(db.Integer, primary_key=True)
 #     name = db.Column(db.String(30))
     
-#     songs = db.relationship("Song", back_populates="albums")
+# #     songs = db.relationship("Song", back_populates="albums")
     
 #     def to_dict(self):
 #         return {
