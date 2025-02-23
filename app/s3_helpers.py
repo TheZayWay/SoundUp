@@ -7,6 +7,7 @@ S3_LOCATION = f"https://{BUCKET_NAME}.s3.amazonaws.com/"
 
 s3 = boto3.client(
     "s3",
+    region_name='us-east-2',
     aws_access_key_id=os.environ.get("S3_KEY"),
     aws_secret_access_key=os.environ.get("S3_SECRET")
 )
