@@ -17,7 +17,7 @@ from .seeds import seed_commands
 from .config import Config
 from pprint import pprint
 import os
-S3_LOCATION = f"http://soundupbucket.s3.amazonaws.com/"
+S3_LOCATION = f"http://1soundupbucket.s3.amazonaws.com/"
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
