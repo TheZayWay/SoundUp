@@ -17,7 +17,7 @@ from .seeds import seed_commands
 from .config import Config
 from pprint import pprint
 import os
-S3_LOCATION = f"http://1soundupbucket.s3.amazonaws.com/"
+S3_LOCATION = f"http://soundup.s3.amazonaws.com/"
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
@@ -107,7 +107,7 @@ def update_song(id):
 
   if request.method in ['PUT', 'POST']:
     if 'filename' in request.files:
-      delete_file_from_s3('soundupbucket', song_in_db.filename)
+      delete_file_from_s3('soundup', song_in_db.filename)
       file = request.files['filename']
       upload_to_s3(file)
       
@@ -127,7 +127,7 @@ def update_song(id):
       image = request.files['image']
       if image:
         if song_in_db.image != "":
-          delete_file_from_s3('soundupbucket', song_in_db.image)
+          delete_file_from_s3('soundup', song_in_db.image)
         upload_to_s3(image)
         image_name = image.filename
         image_path = S3_LOCATION + image.filename
@@ -163,10 +163,10 @@ def delete_song(id):
     filename = song_for_db.filename
     image_name = song_for_db.image
 
-    delete_file_from_s3('soundupbucket', filename)
+    delete_file_from_s3('soundup', filename)
     
     if song_for_db.image != "" and song_for_db.image_path != None:
-        delete_file_from_s3('soundupbucket', image_name)
+        delete_file_from_s3('soundup', image_name)
     
     db.session.delete(song_for_db)
     db.session.commit()
